@@ -1,0 +1,28 @@
+openapi: 3.0.0
+x-stoplight:
+  id: tsnuvw4jm6mj0
+info:
+  title: ChuckNorris
+  version: '1.0'
+servers:
+  - url: 'https://api.chucknorris.io/'
+paths:
+  /jokes/random:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-jokes
+      description: Returns a random joke.
+    parameters: []
+  /jokes/categories:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-jokes-categories
+      description: Returns all the categories
+components:
+  schemas: {}
