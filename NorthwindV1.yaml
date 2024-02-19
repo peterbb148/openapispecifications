@@ -1,0 +1,1292 @@
+openapi: 3.0.1
+info:
+  title: NorthWind Data Service Restful API
+  description: NorthWind Data Service Restful API.
+  version: '1.0'
+paths:
+  /Categories:
+    get:
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryDto'
+  '/Categories/{id}':
+    get:
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+  '/Categories/{id}/Details':
+    get:
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CategoryDetailDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDetailDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDetailDto'
+  '/Categories/{id}/Products':
+    get:
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+  /Customers:
+    get:
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerDto'
+  '/Customers/{id}':
+    get:
+      tags:
+        - Customers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+  '/Customers/{id}/Orders':
+    get:
+      tags:
+        - Customers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+  /Employees:
+    get:
+      tags:
+        - Employees
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+  '/Employees/{id}':
+    get:
+      tags:
+        - Employees
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+  '/Employees/{id}/Superior':
+    get:
+      tags:
+        - Employees
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+  '/Employees/{id}/Subordinates':
+    get:
+      tags:
+        - Employees
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+  '/Employees/{id}/Orders':
+    get:
+      tags:
+        - Employees
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+  '/Employees/{id}/Territories':
+    get:
+      tags:
+        - Employees
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerritoryDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerritoryDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerritoryDto'
+  /Orders:
+    get:
+      tags:
+        - Orders
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+  '/Orders/{id}':
+    get:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+  '/Orders/{id}/Customer':
+    get:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+  '/Orders/{id}/Employee':
+    get:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDto'
+  '/Orders/{id}/OrderDetails':
+    get:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDetailDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDetailDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDetailDto'
+  '/Orders/{id}/Shipper':
+    get:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ShipperDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShipperDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ShipperDto'
+  '/Orders/{id}/Products':
+    get:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+  /Products:
+    get:
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+  '/Products/{id}':
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+  '/Products/{id}/Category':
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+  '/Products/{id}/OrderDetails':
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDetailDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDetailDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDetailDto'
+  '/Products/{id}/Supplier':
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+  /Regions:
+    get:
+      tags:
+        - Regions
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegionDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegionDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegionDto'
+  '/Regions/{id}':
+    get:
+      tags:
+        - Regions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/RegionDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegionDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RegionDto'
+  '/Regions/{id}/Territories':
+    get:
+      tags:
+        - Regions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerritoryDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerritoryDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerritoryDto'
+  /Shippers:
+    get:
+      tags:
+        - Shippers
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShipperDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShipperDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShipperDto'
+  '/Shippers/{id}':
+    get:
+      tags:
+        - Shippers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ShipperDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShipperDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ShipperDto'
+  '/Shippers/{id}/Orders':
+    get:
+      tags:
+        - Shippers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+  /Suppliers:
+    get:
+      tags:
+        - Suppliers
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupplierDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupplierDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupplierDto'
+  '/Suppliers/{id}':
+    get:
+      tags:
+        - Suppliers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+  '/Suppliers/{id}/Products':
+    get:
+      tags:
+        - Suppliers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+  /Territories:
+    get:
+      tags:
+        - Territories
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerritoryDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerritoryDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerritoryDto'
+  '/Territories/{id}':
+    get:
+      tags:
+        - Territories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/TerritoryDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerritoryDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/TerritoryDto'
+  '/Territories/{id}/Employees':
+    get:
+      tags:
+        - Territories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDto'
+  '/Territories/{id}/Region':
+    get:
+      tags:
+        - Territories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/RegionDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegionDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RegionDto'
+components:
+  schemas:
+    CategoryDto:
+      type: object
+      properties:
+        categoryId:
+          type: integer
+          format: int32
+        categoryName:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+    CategoryDetailDto:
+      type: object
+      properties:
+        categoryId:
+          type: integer
+          format: int32
+        categoryName:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        picture:
+          type: string
+          nullable: true
+        productNames:
+          type: array
+          items:
+            type: string
+          nullable: true
+    ProductDto:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int32
+        productName:
+          type: string
+          nullable: true
+        supplierId:
+          type: integer
+          format: int32
+          nullable: true
+        categoryId:
+          type: integer
+          format: int32
+          nullable: true
+        quantityPerUnit:
+          type: string
+          nullable: true
+        unitPrice:
+          type: number
+          format: double
+          nullable: true
+        unitsInStock:
+          type: integer
+          format: int32
+          nullable: true
+        unitsOnOrder:
+          type: integer
+          format: int32
+          nullable: true
+        reorderLevel:
+          type: integer
+          format: int32
+          nullable: true
+        discontinued:
+          type: boolean
+    CustomerDto:
+      type: object
+      properties:
+        customerId:
+          type: string
+          nullable: true
+        companyName:
+          type: string
+          nullable: true
+        contactName:
+          type: string
+          nullable: true
+        contactTitle:
+          type: string
+          nullable: true
+        address:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        region:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        fax:
+          type: string
+          nullable: true
+    OrderDto:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int32
+        customerId:
+          type: string
+          nullable: true
+        employeeId:
+          type: integer
+          format: int32
+          nullable: true
+        orderDate:
+          type: string
+          format: date-time
+          nullable: true
+        requiredDate:
+          type: string
+          format: date-time
+          nullable: true
+        shippedDate:
+          type: string
+          format: date-time
+          nullable: true
+        shipVia:
+          type: integer
+          format: int32
+          nullable: true
+        freight:
+          type: number
+          format: double
+          nullable: true
+        shipName:
+          type: string
+          nullable: true
+        shipAddress:
+          type: string
+          nullable: true
+        shipCity:
+          type: string
+          nullable: true
+        shipRegion:
+          type: string
+          nullable: true
+        shipPostalCode:
+          type: string
+          nullable: true
+        shipCountry:
+          type: string
+          nullable: true
+    EmployeeDto:
+      type: object
+      properties:
+        employeeId:
+          type: integer
+          format: int32
+        lastName:
+          type: string
+          nullable: true
+        firstName:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        titleOfCourtesy:
+          type: string
+          nullable: true
+        birthDate:
+          type: string
+          format: date-time
+          nullable: true
+        hireDate:
+          type: string
+          format: date-time
+          nullable: true
+        address:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        region:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        homePhone:
+          type: string
+          nullable: true
+        extension:
+          type: string
+          nullable: true
+        photo:
+          type: string
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        reportsTo:
+          type: integer
+          format: int32
+          nullable: true
+        photoPath:
+          type: string
+          nullable: true
+    TerritoryDto:
+      type: object
+      properties:
+        territoryId:
+          type: string
+          nullable: true
+        territoryDescription:
+          type: string
+          nullable: true
+        regionId:
+          type: integer
+          format: int32
+    OrderDetailDto:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int32
+        productId:
+          type: integer
+          format: int32
+        unitPrice:
+          type: number
+          format: double
+        quantity:
+          type: integer
+          format: int32
+        discount:
+          type: number
+          format: float
+    ShipperDto:
+      type: object
+      properties:
+        shipperId:
+          type: integer
+          format: int32
+        companyName:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+    SupplierDto:
+      type: object
+      properties:
+        supplierId:
+          type: integer
+          format: int32
+        companyName:
+          type: string
+          nullable: true
+        contactName:
+          type: string
+          nullable: true
+        contactTitle:
+          type: string
+          nullable: true
+        address:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        region:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        fax:
+          type: string
+          nullable: true
+        homePage:
+          type: string
+          nullable: true
+    RegionDto:
+      type: object
+      properties:
+        regionId:
+          type: integer
+          format: int32
+        regionDescription:
+          type: string
+          nullable: true
+servers:
+  - url: 'https://northwind.vercel.app/api'
