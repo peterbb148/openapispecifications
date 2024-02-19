@@ -1,0 +1,97 @@
+openapi: 3.0.1
+x-stoplight:
+  id: tsze47rj817d8
+info:
+  title: NorthWind Data Service Restful API
+  description: NorthWind Data Service Restful API.
+  version: '1.0'
+  contact:
+    name: Peter Birkholm-Buch
+paths:
+  /Products:
+    get:
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+      operationId: get_products
+      description: Returns all products for sale from the Northwind Traders Company.
+  '/Products/{id}':
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+      operationId: get_product
+      description: Returns a product based on id.
+components:
+  schemas:
+    ProductDto:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int32
+        productName:
+          type: string
+          nullable: true
+        supplierId:
+          type: integer
+          format: int32
+          nullable: true
+        categoryId:
+          type: integer
+          format: int32
+          nullable: true
+        quantityPerUnit:
+          type: string
+          nullable: true
+        unitPrice:
+          type: number
+          format: double
+          nullable: true
+        unitsInStock:
+          type: integer
+          format: int32
+          nullable: true
+        unitsOnOrder:
+          type: integer
+          format: int32
+          nullable: true
+        reorderLevel:
+          type: integer
+          format: int32
+          nullable: true
+        discontinued:
+          type: boolean
+      x-stoplight:
+        id: fu5qxkffbet70
+servers:
+  - url: 'https://northwind.vercel.app/api'
