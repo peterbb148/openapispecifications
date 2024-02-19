@@ -12,11 +12,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CategoryDto'
             application/json:
               schema:
                 type: array
@@ -27,6 +22,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CategoryDto'
+      operationId: get_categories
+      description: Returns all the product categories
   '/Categories/{id}':
     get:
       tags:
@@ -42,15 +39,14 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/CategoryDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/CategoryDto'
             text/json:
               schema:
                 $ref: '#/components/schemas/CategoryDto'
+      operationId: get_category
+      description: Returns a product category based on id.
   '/Categories/{id}/Details':
     get:
       tags:
@@ -66,15 +62,14 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/CategoryDetailDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/CategoryDetailDto'
             text/json:
               schema:
                 $ref: '#/components/schemas/CategoryDetailDto'
+      operationId: get_category_details
+      description: Returns a product category details based on id.
   '/Categories/{id}/Products':
     get:
       tags:
@@ -90,11 +85,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductDto'
             application/json:
               schema:
                 type: array
@@ -105,6 +95,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductDto'
+      operationId: get_category_products
+      description: Returns all the products belong to a category specified by id.
   /Customers:
     get:
       tags:
@@ -113,11 +105,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CustomerDto'
             application/json:
               schema:
                 type: array
@@ -128,6 +115,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/CustomerDto'
+      operationId: get_customers
+      description: Returns all customers
   '/Customers/{id}':
     get:
       tags:
@@ -143,15 +132,14 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/CustomerDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerDto'
             text/json:
               schema:
                 $ref: '#/components/schemas/CustomerDto'
+      operationId: get_customer
+      description: Returns a customer based on customer id.
   '/Customers/{id}/Orders':
     get:
       tags:
@@ -167,11 +155,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDto'
             application/json:
               schema:
                 type: array
@@ -182,6 +165,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/OrderDto'
+      operationId: get_customer_orders
+      description: Returns all the orders of a customer specified by id.
   /Employees:
     get:
       tags:
@@ -190,11 +175,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmployeeDto'
             application/json:
               schema:
                 type: array
@@ -205,6 +185,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EmployeeDto'
+      operationId: get_employess
+      description: Returns all the employees.
   '/Employees/{id}':
     get:
       tags:
@@ -220,129 +202,14 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/EmployeeDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeDto'
             text/json:
               schema:
                 $ref: '#/components/schemas/EmployeeDto'
-  '/Employees/{id}/Superior':
-    get:
-      tags:
-        - Employees
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/EmployeeDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmployeeDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/EmployeeDto'
-  '/Employees/{id}/Subordinates':
-    get:
-      tags:
-        - Employees
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmployeeDto'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmployeeDto'
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmployeeDto'
-  '/Employees/{id}/Orders':
-    get:
-      tags:
-        - Employees
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDto'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDto'
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDto'
-  '/Employees/{id}/Territories':
-    get:
-      tags:
-        - Employees
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TerritoryDto'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TerritoryDto'
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TerritoryDto'
+      operationId: get_employee
+      description: Returns an employee based on id.
   /Orders:
     get:
       tags:
@@ -351,11 +218,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDto'
             application/json:
               schema:
                 type: array
@@ -366,6 +228,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/OrderDto'
+      operationId: get_orders
+      description: Returns all orders.
   '/Orders/{id}':
     get:
       tags:
@@ -381,63 +245,14 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/OrderDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderDto'
             text/json:
               schema:
                 $ref: '#/components/schemas/OrderDto'
-  '/Orders/{id}/Customer':
-    get:
-      tags:
-        - Orders
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/CustomerDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CustomerDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/CustomerDto'
-  '/Orders/{id}/Employee':
-    get:
-      tags:
-        - Orders
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/EmployeeDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmployeeDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/EmployeeDto'
+      operationId: get_order
+      description: Returns an order based on id.
   '/Orders/{id}/OrderDetails':
     get:
       tags:
@@ -453,11 +268,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDetailDto'
             application/json:
               schema:
                 type: array
@@ -468,60 +278,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/OrderDetailDto'
-  '/Orders/{id}/Shipper':
-    get:
-      tags:
-        - Orders
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ShipperDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ShipperDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/ShipperDto'
-  '/Orders/{id}/Products':
-    get:
-      tags:
-        - Orders
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductDto'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductDto'
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductDto'
+      operationId: get_order_details
+      description: Returns order details based on id.
   /Products:
     get:
       tags:
@@ -557,93 +315,12 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ProductDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductDto'
             text/json:
               schema:
                 $ref: '#/components/schemas/ProductDto'
-  '/Products/{id}/Category':
-    get:
-      tags:
-        - Products
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/CategoryDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CategoryDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/CategoryDto'
-  '/Products/{id}/OrderDetails':
-    get:
-      tags:
-        - Products
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDetailDto'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDetailDto'
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDetailDto'
-  '/Products/{id}/Supplier':
-    get:
-      tags:
-        - Products
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/SupplierDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SupplierDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/SupplierDto'
   /Regions:
     get:
       tags:
@@ -652,11 +329,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RegionDto'
             application/json:
               schema:
                 type: array
@@ -682,9 +354,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/RegionDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/RegionDto'
@@ -706,11 +375,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TerritoryDto'
             application/json:
               schema:
                 type: array
@@ -729,11 +393,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ShipperDto'
             application/json:
               schema:
                 type: array
@@ -759,9 +418,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ShipperDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/ShipperDto'
@@ -783,11 +439,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDto'
             application/json:
               schema:
                 type: array
@@ -806,11 +457,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SupplierDto'
             application/json:
               schema:
                 type: array
@@ -836,9 +482,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/SupplierDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/SupplierDto'
@@ -860,11 +503,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductDto'
             application/json:
               schema:
                 type: array
@@ -883,11 +521,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TerritoryDto'
             application/json:
               schema:
                 type: array
@@ -913,45 +546,12 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/TerritoryDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/TerritoryDto'
             text/json:
               schema:
                 $ref: '#/components/schemas/TerritoryDto'
-  '/Territories/{id}/Employees':
-    get:
-      tags:
-        - Territories
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            nullable: true
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmployeeDto'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmployeeDto'
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmployeeDto'
   '/Territories/{id}/Region':
     get:
       tags:
@@ -967,9 +567,6 @@ paths:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/RegionDto'
             application/json:
               schema:
                 $ref: '#/components/schemas/RegionDto'
