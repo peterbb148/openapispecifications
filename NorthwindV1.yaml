@@ -545,6 +545,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductDto'
+      operationId: get_products
+      description: Returns all products for sale from the Northwind Traders Company.
   '/Products/{id}':
     get:
       tags:
