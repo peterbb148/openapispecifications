@@ -5,9 +5,9 @@ info:
   title: ChuckNorris
   version: '1.0'
 servers:
-  - url: 'https://api.chucknorris.io/'
+  - url: 'https://api.chucknorris.io/jokes'
 paths:
-  /jokes/random:
+  /random:
     get:
       summary: Your GET endpoint
       tags: []
@@ -17,12 +17,13 @@ paths:
       operationId: get-jokes
       description: Returns a random joke.
     parameters: []
-  /jokes/categories:
+  /categories:
     get:
       summary: Your GET endpoint
       tags: []
       responses: {}
       operationId: get-jokes-categories
       description: Returns all the categories
+    parameters: []
 components:
   schemas: {}
