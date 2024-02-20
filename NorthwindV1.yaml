@@ -23,7 +23,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CategoryDto'
       operationId: get_categories
-      description: Returns all the product categories
+      description: The /Categories method returns all the product categories.
   '/Categories/{id}':
     get:
       tags:
@@ -46,30 +46,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CategoryDto'
       operationId: get_category
-      description: Returns a product category based on id.
-  '/Categories/{id}/Details':
-    get:
-      tags:
-        - Categories
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CategoryDetailDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/CategoryDetailDto'
-      operationId: get_category_details
-      description: Returns a product category details based on id.
+      description: 'The /Categories/{id} method returns a product category based on id.'
   '/Categories/{id}/Products':
     get:
       tags:
