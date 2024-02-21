@@ -1,0 +1,1424 @@
+openapi: 3.0.3
+tags:
+  - name: order-controller-v-4
+    description: Order Service Api Specification
+info:
+  contact:
+    name: Platform Team
+  title: OpenAPI definition
+  description: Order service specification
+  version: v4
+servers:
+  - url: 'https://api.tst.carlsbergwebservices.com/order-service
+/services/v3'
+    description: Generated server url
+paths:
+  '/orders/{orderNumber}':
+    put:
+      summary: Update Order
+      description: Update Order Operation
+      tags:
+        - order-controller-v-4
+      operationId: updateOrderStatus
+      parameters:
+        - $ref: '#/components/parameters/salesOrgQry'
+        - name: oldStatus
+          example: XYZ
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Old Status Query Parameter
+        - name: newStatus
+          example: XYZ
+          in: query
+          required: true
+          schema:
+            type: string
+          description: New Status Query Parameter
+      responses:
+        '200':
+          description: Update Order Operation
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/OrderDetailsDto-V3'
+    parameters:
+      - $ref: '#/components/parameters/orderNumber'          
+    delete:
+      summary: Delete Order
+      description: Delete Order Operation
+      tags:
+        - order-controller-v-4
+      operationId: cancelOrder
+      parameters:
+        - name: orderNumber
+          example: XYZ
+          description: Order Number Parameter
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: salesOrg
+          example: '1010'
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Sales Org Query Parameter
+      responses:
+        '204':
+          description: No Content Response Description
+  /orders/searchBySalesOrgOutletOrder:
+    get:
+      summary: Orders By Sales Org and Outlet
+      description: List Orders By Sales Org and Outlet Order
+      tags:
+        - order-controller-v-4
+      operationId: getOrdersByOutletOrOrderNumberAndSalesOrg
+      parameters:
+        - $ref: '#/components/parameters/salesOrgQry'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/size'
+        - $ref: '#/components/parameters/fromDate'
+        - $ref: '#/components/parameters/toDate'
+        - $ref: '#/components/parameters/search'
+      responses:
+        '200':
+          description: List Orders By Sales Org and Outlet Order
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PagedModelEntityModelOrderSummaryDto-V4'
+components:
+  parameters:
+    orderNumber:
+      name: orderNumber
+      example: '120001257'
+      description: Order Number Parameter
+      in: path
+      required: true
+      schema:
+        type: string
+    page:
+      name: page
+      example: 1
+      description: Page Parameter
+      in: query
+      required: false
+      schema:
+        minimum: 0
+        type: integer
+        format: int64
+        default: 0
+    toDate:
+      name: toDate
+      example: '2023-01-01'
+      description: To Date Parameter
+      in: query
+      required: false
+      schema:
+        type: string
+        format: date
+    salesOrgQry:
+      name: salesOrg
+      description: Sales Org Parameter
+      example: '1010'
+      in: query
+      required: true
+      schema:
+        type: string
+    fromDate:
+      name: fromDate
+      example: '2023-01-01'
+      description: From Date Parameter
+      in: query
+      required: true
+      schema:
+        type: string
+        format: date
+    size:
+      name: size
+      example: 100
+      description: Size Parameter
+      in: query
+      required: false
+      schema:
+        maximum: 1000
+        type: integer
+        format: int64
+        default: 10
+    search:
+      name: search
+      example: XYZ
+      description: Search Parameter
+      in: query
+      required: false
+      schema:
+        type: string
+        default: '*'
+  schemas:
+    CartAppliedPromotionDto:
+      description: Cart Applied Promotion Dto
+      type: object
+      example:
+        code: PAULO_LOY_10
+        type: FreeItemAdd
+        qualifyingOperator: XYZ
+        qualifyingItems:
+          - 10LXG650B-PT0
+        value: 1
+        rewardedItems:
+          - Reward-cart-amount-v1
+      properties:
+        code:
+          example: Amount off - cart total
+          description: Promotion Code Property
+          type: string
+        type:
+          example: CART_QUALIFY_AMOUNT_REWARD_AMOUNT
+          description: Promotion Type Property
+          type: string
+        qualifyingOperator:
+          example: XYZ
+          description: Qualifying Operator Property
+          type: string
+        qualifyingItems:
+          example:
+            - XYZ
+          description: Qualifying Items Property
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            example: Qualify-cart-amount-v1
+        value:
+          example: 1
+          description: Promotion Value Property
+          type: number
+          format: double
+        rewardedItems:
+          example:
+            - XYZ
+          description: Rewarded Items Property
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+            example: Reward-cart-amount-v1
+      required:
+        - code
+        - type
+        - qualifyingItems
+        - value
+    CartDto:
+      type: object
+      example:
+        eid: XYZ
+        value: 1
+        total:
+          value: 10
+          totalProducts: 100
+      description: Schema Cart Dto Object
+      properties:
+        eid:
+          example: e428e45e-1e82-4a7b-a06d-7661cef977d0
+          description: Cart Eid Property Value
+          type: string
+        total:
+          $ref: '#/components/schemas/CartTotalDto'
+        items:
+          example:
+            - salesOrg: '1010'
+              sku: XYZ
+              price:
+                value: 10
+                base: 10
+                total: 100
+                baseWithoutDiscounts: 1
+                totalWithoutDiscounts: 1
+          type: array
+          description: Cart Items Description
+          items:
+            $ref: '#/components/schemas/CartItemDto'
+        returnItems:
+          example:
+            - salesOrg: '1010'
+              sku: XYZ
+              price:
+                base: 10
+                total: 100
+          description: Return Items Property
+          type: array
+          items:
+            $ref: '#/components/schemas/CartReturnItemDto'
+        freeItems:
+          example:
+            - salesOrg: '1010'
+              sku: xys
+              price:
+                baseDeposits: 10
+                totalDeposits: 100
+          description: Cart Free Items Property
+          type: array
+          items:
+            $ref: '#/components/schemas/CartFreeItemDto'
+        redeemableItems:
+          example:
+            - salesOrg: '1010'
+              sku: xys
+              price:
+                base: 10
+                total: 100
+          description: Cart Redeemable Items
+          type: array
+          items:
+            $ref: '#/components/schemas/CartRedeemableItemDto'
+        appliedPromotions:
+          example:
+            - code: '10'
+              qualifyingItems: []
+              type: t
+              value: 10
+          description: Applied Promotions Property
+          type: array
+          items:
+            $ref: '#/components/schemas/CartAppliedPromotionDto'
+        status:
+          example: VALID
+          type: string
+          enum:
+            - VALID
+            - QUANTITY_ERROR
+            - VALUE_ERROR
+            - QUANTITY_VALUE_ERROR
+          description: Status Property Description
+      required:
+        - eid
+        - total
+    EntityModelOrderSummaryDto-V4:
+      type: object
+      description: Entity Model Order Summary Dto V4
+      properties:
+        salesOrg:
+          type: string
+          example: '1010'
+          description: The Sales Org Parameter
+        orderNumber:
+          type: string
+          description: Order Number Parameter
+          example: XYZ
+        orderStatus:
+          type: string
+          enum:
+            - Created
+            - Canceled
+            - Accepted
+            - Received
+            - Rejected
+            - Dispatched
+            - Delivered
+            - Transferred
+            - DeliveredEdited
+          description: Order Status Parameter
+          example: Created
+        creationDate:
+          type: string
+          format: date-time
+          description: Creation Date Parameter
+          example: '2023-01-01T21:59:43.10-05:00'
+        gracePeriod:
+          type: string
+          format: date-time
+          description: Graced Period Parameter
+          example: '2023-01-01T21:59:43.10-05:00'
+        deliveryDate:
+          type: string
+          format: date
+          example: '2023-01-01'
+          description: Delivery Date Parameter
+        user:
+          $ref: '#/components/schemas/UserDto'
+        totalDepositPrice:
+          type: number
+          format: double
+          description: Total Deposit Price Parameter
+          example: 10
+        totalPriceWithDeposits:
+          type: number
+          format: double
+          description: Total Price With Deposits
+          example: 100
+        totalReturnValue:
+          type: number
+          format: double
+          description: Total Return Value Parameter
+          example: 10
+        totalRedeemablePoints:
+          type: number
+          format: double
+          description: Total Redeemable Points Parameter
+          example: 10
+        totalCollectablePoints:
+          type: number
+          format: double
+          description: Total Collectable Points Parameter
+          example: 10
+        outlet:
+          $ref: '#/components/schemas/OutletDto'
+        distributor:
+          $ref: '#/components/schemas/SupplierDto'
+        totalPrice:
+          type: number
+          format: double
+          example: 10
+          description: Total Price Parameter
+        printDocuments:
+          example: true
+          type: boolean
+          description: Print Documents Parameter
+        orderType:
+          type: string
+          enum:
+            - ONLINE
+            - FREEBEER
+          description: Order Type Parameter
+          example: ONLINE
+        wholesaler:
+          $ref: '#/components/schemas/SupplierDto'
+        transactionType:
+          type: string
+          description: Transaction Type Parameter
+          example: XYZ
+        links:
+          type: array
+          example:
+            - url: XYZ
+          description: The Order Links Parameter
+          items:
+            $ref: '#/components/schemas/Link'
+    PagedModelEntityModelOrderSummaryDto-V4:
+      type: object
+      description: Paged Model Entity Model Order Summary Dto V4
+      properties:
+        links:
+          type: array
+          example:
+            - url: XYZ
+          description: The Order Links Property
+          items:
+            $ref: '#/components/schemas/Link'
+        content:
+          example:
+            - salesOrg: '1010'
+          type: array
+          description: The Content Property
+          items:
+            $ref: '#/components/schemas/EntityModelOrderSummaryDto-V4'
+        page:
+          $ref: '#/components/schemas/PageMetadata'
+    CartFreeItemDto:
+      type: object
+      description: Cart Free Item Dto Schema
+      properties:
+        salesOrg:
+          example: L001
+          type: string
+          description: The Sales Org Property
+        sku:
+          example: '100813'
+          type: string
+          description: Sku Property Property
+        barcode:
+          example: '4067800263406'
+          type: string
+          description: Cart Free Itrem Barcode Property
+        alcohol:
+          example: 1
+          type: number
+          format: double
+          description: The Alcohol Property
+        liquidType:
+          example: XYZ
+          type: string
+          description: Liquid Type Property
+        filtration:
+          example: XYZ
+          type: string
+          description: The Filtration Property
+        countryOfOrigin:
+          example: XYZ
+          type: string
+          description: Country of Origin Property
+        name:
+          example: XYZ
+          type: string
+          description: Cart Free Item Name Property
+        quantity:
+          example: 10
+          type: integer
+          format: int32
+          description: Cart Free Item Quantity
+        type:
+          example: XYZ
+          type: string
+          description: Cart Free Item Type Property
+        images:
+          example:
+            - {}
+          type: array
+          description: Cart Free Item Images
+          items:
+            $ref: '#/components/schemas/ImageDto'
+        deposits:
+          example:
+            - {}
+          type: array
+          description: Cart Free Item Deposits
+          items:
+            $ref: '#/components/schemas/DepositDto'
+        baseSku:
+          example: XYZ
+          type: string
+          description: Cart Free Item Base Sku
+        label:
+          example: XYZ
+          type: string
+          description: Cart Free Item Label
+        price:
+          $ref: '#/components/schemas/CartFreeItemPriceDto'
+        package:
+          $ref: '#/components/schemas/ProductPackageDto'
+      required:
+        - salesOrg
+        - sku
+        - price
+    CartFreeItemPriceDto:
+      example:
+        baseDeposits: 10
+        totalDeposits: 100
+      type: object
+      description: Cart Free Item Price Dto
+      properties:
+        baseDeposits:
+          example: 10
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Base Deposits Property
+        totalDeposits:
+          example: 10
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Total Deposits Property
+    CartItemDto:
+      type: object
+      x-examples:
+        Example 1:
+          salesOrg: string
+          sku: string
+          barcode: string
+          alcohol: 0
+          liquidType: string
+          filtration: string
+          countryOfOrigin: string
+          name: string
+          quantity: -2147483648
+          type: string
+          images:
+            - url: string
+              size: TINY
+          deposits:
+            - sku: string
+              name: string
+              type: string
+              quantity: 0
+              basePrice: 0
+              totalPrice: 0
+              images:
+                - url: string
+                  size: TINY
+              baseSku: string
+              label: string
+          baseSku: string
+          label: string
+          price:
+            baseDeposits: 0
+            totalDeposits: 0
+            base: 0.01
+            total: 0.01
+            baseWithoutDiscounts: 0.01
+            totalWithoutDiscounts: 0.01
+          collectablePoints: 0
+          package:
+            unit: string
+            type: string
+            size: string
+      description: Cart Item Dto Schema
+      properties:
+        salesOrg:
+          example: '1010'
+          type: string
+          description: The Sales Org Property
+        sku:
+          example: validAvailableProduct
+          type: string
+          description: Sku Property Description
+        barcode:
+          example: XYZ
+          type: string
+          description: Cart Item Bar Code Property
+        alcohol:
+          example: 1
+          type: number
+          format: double
+          description: Cart Item Alcohol Property
+        liquidType:
+          example: XYZ
+          type: string
+          description: Liquid Type Property
+        filtration:
+          example: XYZ
+          type: string
+          description: Cart Item Filtration
+        countryOfOrigin:
+          example: PT
+          type: string
+          description: Country of Origin Property
+        name:
+          example: Tiger Head Drinking Water PET 600ml Shrink film x24
+          type: string
+          description: Name Property Description
+        quantity:
+          example: 10
+          type: integer
+          format: int32
+          description: The Quantity Property
+        type:
+          example: PET
+          type: string
+          description: Type Property Description
+        images:
+          example:
+            - type: png
+              size: TINY
+          type: array
+          description: Cart Item Images Property
+          items:
+            $ref: '#/components/schemas/ImageDto'
+        deposits:
+          example:
+            - sku: XYZ
+              name: XYZ
+          type: array
+          description: Cart Item Deposits Property
+          items:
+            $ref: '#/components/schemas/DepositDto'
+        baseSku:
+          example: 10TDW600P-SF1
+          type: string
+          description: Cart Item Base Sku Property
+        label:
+          example: 10TDW600P-SF1
+          type: string
+          description: Cart Item Label Property
+        price:
+          $ref: '#/components/schemas/CartItemPriceDto'
+        collectablePoints:
+          example: 10
+          type: number
+          format: double
+          description: Collectables Points Property
+        package:
+          $ref: '#/components/schemas/ProductPackageDto'
+      required:
+        - salesOrg
+        - sku
+        - price
+    CartItemPriceDto:
+      example:
+        base: 1
+        total: 10
+        baseWithoutDiscounts: 1
+        totalWithoutDiscounts: 10
+      type: object
+      description: Cart Item Price Dto Schema
+      properties:
+        baseDeposits:
+          example: 1
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Base Deposits Property
+        totalDeposits:
+          example: 1
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Total Deposits Property
+        base:
+          example: 69900
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Base Property Description
+        total:
+          example: 349500
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Cart Item Price Total Property
+        baseWithoutDiscounts:
+          example: 69900
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Base Without Discounts Property
+        totalWithoutDiscounts:
+          example: 349500
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Total Without Discounts Property
+      required:
+        - base
+        - total
+        - baseWithoutDiscounts
+        - totalWithoutDiscounts
+    CartRedeemableItemDto:
+      type: object
+      description: Cart Redeemable Item Dto
+      properties:
+        salesOrg:
+          example: '1010'
+          type: string
+          description: The Sales Org Property
+        sku:
+          example: XYZ
+          type: string
+          description: Sku Property Description
+        barcode:
+          example: XYZ
+          type: string
+          description: Cart Redeemable Item Bar Code
+        alcohol:
+          example: 1
+          type: number
+          format: double
+          description: Cart Redeemable Item Alcohol
+        liquidType:
+          example: XYZ
+          type: string
+          description: Liquid Type Property
+        filtration:
+          example: XYZ
+          type: string
+          description: Cart Redeemable Item Filtration
+        countryOfOrigin:
+          example: XYZ
+          type: string
+          description: Country of Origin Property
+        name:
+          example: XYZ
+          type: string
+          description: Name Property Description
+        quantity:
+          example: 10
+          type: integer
+          format: int32
+          description: Cart Redeemable Item Quantity
+        type:
+          example: XYZ
+          type: string
+          description: Type Property Description
+        images:
+          example:
+            - name: XYZ
+              size: TINY
+          type: array
+          description: Cart Redeemable Item Images
+          items:
+            $ref: '#/components/schemas/ImageDto'
+        deposits:
+          example:
+            - label: XYZ
+          type: array
+          description: Cart Redeemable Item Deposits
+          items:
+            $ref: '#/components/schemas/DepositDto'
+        baseSku:
+          example: XYZ
+          type: string
+          description: Cart Redeemable Item Base Sku
+        label:
+          example: XYZ
+          type: string
+          description: Cart Redeemable Item Label
+        price:
+          $ref: '#/components/schemas/CartRedeemablePriceDto'
+        package:
+          $ref: '#/components/schemas/ProductPackageDto'
+      required:
+        - salesOrg
+        - sku
+        - price
+    CartRedeemablePriceDto:
+      example:
+        base: 10
+        total: 100
+      type: object
+      description: Cart Redeemable Price Dto
+      properties:
+        baseDeposits:
+          example: 10
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Base Deposits Property
+        totalDeposits:
+          example: 1
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Total Deposits Property
+        base:
+          example: 1
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Base Property Description
+        total:
+          example: 1
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Cart Redeemable Price Total
+      required:
+        - base
+        - total
+    CartReturnItemDto:
+      type: object
+      description: Cart Return Item Dto
+      properties:
+        salesOrg:
+          example: '1010'
+          type: string
+          description: The Sales Org Property
+        sku:
+          example: XYZ
+          type: string
+          description: Sku Property Description
+        barcode:
+          example: XYZ
+          type: string
+          description: Cart Return Item Bar Code
+        alcohol:
+          example: 100
+          type: number
+          format: double
+          description: Cart Return Item Alcohol
+        liquidType:
+          example: XYZ
+          type: string
+          description: Liquid Type Property
+        filtration:
+          example: XYZ
+          type: string
+          description: Cart Return Item Filtration
+        countryOfOrigin:
+          example: XYZ
+          type: string
+          description: Country Of Origin Description
+        name:
+          example: XYZ
+          type: string
+          description: Name Property Description
+        quantity:
+          example: 1
+          type: integer
+          format: int32
+          description: Cart Return Item Quantity
+        type:
+          example: XYZ
+          type: string
+          description: Type Property Description
+        images:
+          example:
+            - size: TINY
+          type: array
+          description: Cart Return Item Images
+          items:
+            $ref: '#/components/schemas/ImageDto'
+        deposits:
+          example:
+            - label: XYZ
+          type: array
+          description: Cart Return Item Deposits
+          items:
+            $ref: '#/components/schemas/DepositDto'
+        baseSku:
+          example: XYZ
+          type: string
+          description: Cart Return Item Base Sku
+        label:
+          example: XYZ
+          type: string
+          description: Cart Return Item Label Property
+        price:
+          $ref: '#/components/schemas/CartReturnPriceDto'
+        package:
+          $ref: '#/components/schemas/ProductPackageDto'
+      required:
+        - salesOrg
+        - sku
+        - price
+    CartReturnPriceDto:
+      example:
+        base: 10
+        total: 100
+      type: object
+      description: Cart Return Price Dto
+      properties:
+        baseDeposits:
+          example: 1
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Base Deposits Property
+        totalDeposits:
+          example: 1
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Total Deposits Property
+        base:
+          example: 1
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Base Property Description
+        from:
+          example: 1
+          type: number
+          format: double
+          description: From Property Description
+        total:
+          example: 1
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Cart Return Price Total
+      required:
+        - base
+        - total
+    CartTotalDto:
+      example:
+        value: 10
+        totalProducts: 10
+      type: object
+      description: Cart Total Dto Schema
+      properties:
+        value:
+          example: 409300
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+          description: Cart Total Value Property
+        differentItems:
+          example: 1
+          type: integer
+          format: int32
+          description: Different Items Property
+        differentFreeItems:
+          example: 1
+          type: integer
+          format: int32
+          description: Different Free Items Property
+        totalProducts:
+          example: 10
+          minimum: 0
+          type: integer
+          format: int32
+          description: Total Products Property
+        totalFreeItems:
+          example: 1
+          type: integer
+          format: int32
+          description: Total Free Items Property
+        totalDeposits:
+          example: 1
+          type: number
+          format: double
+          description: Total Deposits Property
+        totalWithDeposits:
+          example: 409300
+          type: number
+          format: double
+          description: Total With Deposits Property
+        totalReturnItems:
+          example: 1
+          type: integer
+          format: int32
+          description: Total Return Items Property
+        totalReturnValue:
+          example: 1
+          type: number
+          format: double
+          description: Total Return Value Property
+        totalRedeemableItems:
+          example: 1
+          type: integer
+          format: int32
+          description: Total Redeemable Items Property
+        totalRedeemablePoints:
+          example: 1
+          type: number
+          format: double
+          description: Total Redeemable Points Property
+        totalCollectablePoints:
+          example: 1
+          type: number
+          format: double
+          description: Total Collectable Points Property
+        totalVouchersValue:
+          example: 1
+          type: number
+          format: double
+          description: Total Voucher Values Property
+      required:
+        - value
+        - totalProducts
+    OrderDetailsDto-V3:
+      type: object
+      description: Order Details Dto V3
+      properties:
+        salesOrg:
+          type: string
+          example: '1010'
+          description: The Sales Org Property
+        orderNumber:
+          example: XYZ
+          type: string
+          description: Order Number Property
+        orderStatus:
+          example: Created
+          type: string
+          enum:
+            - Created
+            - Canceled
+            - Accepted
+            - Received
+            - Rejected
+            - Dispatched
+            - Delivered
+            - Transferred
+            - DeliveredEdited
+          description: Order Status Property
+        creationDate:
+          example: '2023-01-01T21:59:43.10-05:00'
+          type: string
+          format: date-time
+          description: Creation Date Property
+        gracePeriod:
+          example: '2023-01-01T21:59:43.10-05:00'
+          type: string
+          format: date-time
+          description: Grace Period Property
+        deliveryDate:
+          example: '2023-01-01'
+          type: string
+          format: date
+          description: Delivery Date Property
+        user:
+          $ref: '#/components/schemas/UserDto'
+        soldTo:
+          $ref: '#/components/schemas/SoldToDto'
+        distributor:
+          $ref: '#/components/schemas/SupplierDto'
+        cart:
+          $ref: '#/components/schemas/CartDto'
+        shippingAddress:
+          $ref: '#/components/schemas/ShippingAddressDto'
+        comments:
+          example: XYZ
+          type: string
+          description: Order Details Comments Property
+        printDocuments:
+          example: true
+          type: boolean
+          description: Print Documents Property
+        orderType:
+          example: ONLINE
+          type: string
+          enum:
+            - ONLINE
+            - FREEBEER
+          description: The Order Type Property
+        paymentType:
+          example: XYZ
+          type: string
+          description: Payment Type Property
+        wholesaler:
+          $ref: '#/components/schemas/SupplierDto'
+        transactionType:
+          example: XYZ
+          type: string
+          description: 'Transaction Type Property  '
+      x-examples:
+        Example 1:
+          salesOrg: string
+          orderNumber: string
+          orderStatus: Created
+          creationDate: '2019-08-24T14:15:22Z'
+          gracePeriod: '2019-08-24T14:15:22Z'
+          deliveryDate: '2019-08-24'
+          user:
+            email: XYZ
+            phoneNumber: '123456789'
+          soldTo:
+            eid: XYZ
+            entityType: XYZ
+          distributor:
+            email: XYZ
+          cart:
+            eid: XYZ
+            value: 1
+            total:
+              value: 10
+              totalProducts: 100
+          shippingAddress:
+            address: XYZ
+            city: XYZ
+          comments: string
+          printDocuments: true
+          orderType: ONLINE
+          paymentType: string
+          wholesaler:
+            email: XYZ
+          transactionType: string
+    DepositDto:
+      example:
+        label: XYZ
+      type: object
+      description: Deposit Dto Schema Description
+      properties:
+        sku:
+          example: '41000041'
+          type: string
+          description: Sku Property Description
+        name:
+          example: (New)Carlsberg Empty Bottle 640ml (3x4)Domestic
+          type: string
+          description: Name Property Description
+        type:
+          example: BOTTLE
+          type: string
+          description: Type Property Description
+        quantity:
+          example: 12
+          type: integer
+          format: int32
+          description: Quantity Property Description
+        basePrice:
+          example: 500
+          type: number
+          format: double
+          description: Deposit Base Price Property
+        totalPrice:
+          example: 6000
+          type: number
+          format: double
+          description: Total Price Property
+        images:
+          example:
+            - url: XYZ
+          type: array
+          description: Deposit Images Property
+          items:
+            $ref: '#/components/schemas/ImageDto'
+        baseSku:
+          example: '66236'
+          type: string
+          description: Deposit Base Sku Property
+        label:
+          example: Full pack
+          type: string
+          description: Deposit Label Property
+    ImageDto:
+      type: object
+      description: Image Dto Object Schema
+      properties:
+        url:
+          example: /images/products/small/1010_10SUP320C-CT0.png
+          type: string
+          description: Url Property Description
+        size:
+          example: TINY
+          type: string
+          enum:
+            - TINY
+            - SMALL
+            - MEDIUM
+            - LARGE
+          description: Size Property Description
+    ProductPackageDto:
+      type: object
+      description: Product Package Dto Description
+      properties:
+        unit:
+          example: FOP
+          type: string
+          description: Unit Property Description
+        type:
+          example: 24 PACK
+          type: string
+          description: Type Property Description
+        size:
+          example: '600'
+          type: string
+          description: Size Property Description
+      example:
+        unit: FOP
+        type: 24 PACK
+        size: '600'
+    ShippingAddressDto:
+      example:
+        eid: '1473507'
+        name: Mystique
+        address: Hohe Luft 31
+        city: Zeven
+        zipCode: '27404'
+      type: object
+      description: Shipping Address Dto Description
+      properties:
+        eid:
+          example: '1473507'
+          type: string
+          description: Eid Property Description
+        name:
+          example: Mystique
+          type: string
+          description: Name Property Description
+        address:
+          example: Hohe Luft 31
+          type: string
+          description: Address Property Description
+        city:
+          example: Zeven
+          type: string
+          description: City Property Description
+        zipCode:
+          example: '27404'
+          type: string
+          description: Zip Code Property Description
+      required:
+        - address
+        - city
+    SoldToDto:
+      example:
+        eid: '1473507'
+        salesOrg: '1010'
+        name: Mystique
+        entityType: OUTLET
+      type: object
+      description: Sold To Dto Object Schema
+      properties:
+        eid:
+          type: string
+          example: '1473507'
+          description: Eid Property Description
+        salesOrg:
+          example: '1010'
+          type: string
+          description: The Sales Org Property
+        name:
+          example: Mystique
+          type: string
+          description: Name Property Description
+        entityType:
+          example: OUTLET
+          type: string
+          description: Entity Type Property
+      required:
+        - eid
+        - entityType
+      x-examples: {}
+    SupplierDto:
+      example:
+        eid: '6070599'
+        salesOrg: '1010'
+        name: Wifa Getränke-Logistik
+        email: auto_user_dist_01@email.com
+        phone: 02242 8840140
+        address:
+          eid: '1473507'
+          name: Mystique
+          address: Hohe Luft 31
+          city: Zeven
+          zipCode: '27404'
+      type: object
+      description: Supplier Dto Object Schema
+      properties:
+        eid:
+          example: '6070599'
+          type: string
+          description: Eid Property Description
+        salesOrg:
+          example: '1010'
+          type: string
+          description: Sales Org Property Description
+        name:
+          example: Wifa Getränke-Logistik
+          type: string
+          description: Name Property Description
+        email:
+          example: auto_user_dist_01@email.com
+          type: string
+          description: Email Property Description
+        phone:
+          example: 02242 8840140
+          type: string
+          description: Supplier Phone Property
+        address:
+          $ref: '#/components/schemas/ShippingAddressDto'
+        default:
+          example: true
+          type: boolean
+          description: Supplier Default Property
+          default: true
+    UserDto:
+      example:
+        eid: 4d22344e-29a1-492f-84c3-0099a081201b
+        firstName: Paulo
+        lastName: José
+        phoneNumber: '+46761354094'
+        email: test@gmail.com
+      type: object
+      description: User Dto Object Schema
+      properties:
+        eid:
+          example: 4d22344e-29a1-492f-84c3-0099a081201b
+          type: string
+          description: Eid Property Description
+        firstName:
+          example: Paulo
+          type: string
+          description: User First Name Property
+        lastName:
+          example: José
+          type: string
+          description: User Last Name Property
+        phoneNumber:
+          example: '+46761354094'
+          type: string
+          description: Phone Number Property
+        email:
+          example: test@gmail.com
+          type: string
+          description: The User Email Property
+      required:
+        - phoneNumber
+    Link:
+      type: object
+      description: Link Dto Schema Description
+      properties:
+        rel:
+          example: XYZ
+          type: string
+          description: Rel Property Description
+        href:
+          example: XYZ
+          type: string
+          description: Href Property Description
+        hreflang:
+          example: XYZ
+          type: string
+          description: Href Lang Property Description
+        media:
+          example: XYZ
+          type: string
+          description: Media Property Description
+        title:
+          example: XYZ
+          type: string
+          description: Title Property Description
+        type:
+          example: XYZ
+          type: string
+          description: Type Property Description
+        deprecation:
+          example: XYZ
+          type: string
+          description: Deprecation Property
+        profile:
+          example: XYZ
+          type: string
+          description: The Profile Property
+        name:
+          example: XYZ
+          type: string
+          description: Name Property Description
+    OutletDto:
+      example:
+        eid: XYZ
+      type: object
+      description: Outlet Dto Schema Description
+      properties:
+        eid:
+          example: SEELENAMAR
+          type: string
+          description: Eid Property Description
+        salesOrg:
+          example: '1010'
+          type: string
+          description: The Sales Org Property
+        name:
+          example: Elena Martinez Sweden Bar
+          type: string
+          description: Name Property Description
+      required:
+        - eid
+    PageMetadata:
+      example:
+        size: 10
+      type: object
+      description: Page Metadata Schema
+      properties:
+        size:
+          example: 1
+          type: integer
+          format: int64
+          description: Size Property Description
+        totalElements:
+          example: 100
+          type: integer
+          format: int64
+          description: Total Elements Property
+        totalPages:
+          example: 100
+          type: integer
+          format: int64
+          description: Total Pages Property
+        number:
+          example: 10
+          type: integer
+          format: int64
+          description: The Page Number Property
