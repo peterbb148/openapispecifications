@@ -9,8 +9,7 @@ info:
   description: Order service specification
   version: v4
 servers:
-  - url: 'https://api.tst.carlsbergwebservices.com/order-service
-/services/v3'
+  - url: 'https://api.tst.carlsbergwebservices.com/order-service/services/v3'
     description: Generated server url
 paths:
   '/orders/{orderNumber}':
@@ -44,7 +43,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrderDetailsDto-V3'
     parameters:
-      - $ref: '#/components/parameters/orderNumber'          
+      - $ref: '#/components/parameters/orderNumber'
     delete:
       summary: Delete Order
       description: Delete Order Operation
