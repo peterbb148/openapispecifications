@@ -9,7 +9,7 @@ info:
   description: Order service specification
   version: v4
 servers:
-  - url: 'https://api.tst.carlsbergwebservices.com/order-service/services/v3'
+  - url: 'https://api.tst.carlsbergwebservices.com/order-service/services/v4'
     description: Generated server url
 paths:
   '/orders/{orderNumber}':
