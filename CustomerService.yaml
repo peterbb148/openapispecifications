@@ -6,7 +6,7 @@ info:
   contact:
     name: Platform Team
 servers:
-  - url: 'https://api.tst.carlsbergwebservices.com/customer-service'
+  - url: 'https://api.tst.carlsbergwebservices.com/customer-service/api/v2'
     description: Customer Services Api
 tags:
   - name: customer-controller
