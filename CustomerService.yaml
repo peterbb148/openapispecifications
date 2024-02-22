@@ -1,0 +1,2460 @@
+openapi: 3.0.3
+info:
+  title: Customer Services
+  description: 'This service exposes customer information (with origin on ERP master data) in a useful, searchable way, allowing also the addition of custom extra information.'
+  version: v1
+  contact:
+    name: Platform Team
+servers:
+  - url: 'https://api.tst.carlsbergwebservices.com/customer-service'
+    description: Customer Services Api
+tags:
+  - name: customer-controller
+    description: Controller to manage customer operations
+  - name: operational-controller
+    description: Controller to manage operational operations
+  - name: kafka-controller
+    description: Controller to manage kafka operations
+paths:
+  '/{salesOrgCode}/customer/{customerId}/visit':
+    put:
+      summary: Enrich the visit
+      description: Enrich the visit by sales org and customer id
+      tags:
+        - customer-controller
+      operationId: enrichVisits
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/customerId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VisitRequestDto'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/CustomerResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/{salesOrgCode}/customer/{customerId}/fitScore/{fitScore}':
+    put:
+      summary: Enrich the fit Score
+      description: Enrich the fit Score by sales org and customer id
+      tags:
+        - customer-controller
+      operationId: enrichFitScore
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/customerId'
+        - name: fitScore
+          description: The FitScore parameter
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+          example: 1
+      responses:
+        '200':
+          $ref: '#/components/responses/CustomerResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/{salesOrgCode}/customer/bulk/visit':
+    put:
+      summary: Enrich the visits
+      description: Enrich the visits by sales org
+      tags:
+        - customer-controller
+      operationId: bulkEnrichVisits
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VisitBulkRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK - Successful response
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/{salesOrgCode}/populate':
+    get:
+      summary: Populate by sales org code
+      description: Populate by sales org code
+      tags:
+        - operational-controller
+      operationId: populate
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+      responses:
+        '200':
+          description: OK - Successful response
+        '400':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: Populate with customers
+      description: Populate with customers
+      tags:
+        - operational-controller
+      operationId: populateWithCustomers
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        '200':
+          description: OK - Successful response
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/{salesOrgCode}/customer/partners':
+    post:
+      summary: Get all customers
+      description: Get all customers by partner relations
+      tags:
+        - customer-controller
+      operationId: getAllCustomersByPartnerRelations
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/size'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomersByPartnersRequest'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/PageCustomerDto'
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/v2/{salesOrgCode}/customer':
+    get:
+      summary: Get all customers v2
+      description: Get all customers v2
+      tags:
+        - customer-controller
+      operationId: getAllCustomersV2
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/size'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/PageCustomerDto'
+        '400':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: Get all customers v2
+      description: Get all customers v2 with post method
+      tags:
+        - customer-controller
+      operationId: getAllCustomersV2WithPost
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/size'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+        required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/PageCustomerDto'
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/{salesOrgCode}/reindex':
+    get:
+      summary: Reindex by Sales Org
+      description: Reindex by Sales Org
+      tags:
+        - operational-controller
+      operationId: reindex
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+      responses:
+        '200':
+          description: OK - Successful response
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/{salesOrgCode}/geocode':
+    get:
+      summary: Get GeoCode
+      description: Get GeoCode by SalesOrg
+      tags:
+        - operational-controller
+      operationId: geocode
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+      responses:
+        '200':
+          description: OK - Successful response
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/{salesOrgCode}/customer':
+    get:
+      summary: Get All Customers
+      description: Get All Customers Paginated
+      tags:
+        - customer-controller
+      operationId: getAllCustomers
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/size'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+        required: true
+      responses:
+        '200':
+          description: OK - Successful response
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CustomerSearchResultsDto'
+        '400':
+          $ref: '#/components/responses/Problem'
+      deprecated: true
+  '/{salesOrgCode}/customer/{customerId}':
+    get:
+      summary: Get Customer
+      description: Get Customer By Id and Sales Org
+      tags:
+        - customer-controller
+      operationId: getCustomerById
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/customerId'
+      responses:
+        '200':
+          $ref: '#/components/responses/CustomerResponse'
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/{salesOrgCode}/customer/location':
+    get:
+      deprecated: true
+      summary: Get All Customer
+      description: Get All Customer By Location
+      tags:
+        - customer-controller
+      operationId: getAllCustomersByLocation
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/startLatitude'
+        - $ref: '#/components/parameters/endLatitude'
+        - $ref: '#/components/parameters/startLongitude'
+        - $ref: '#/components/parameters/endLongitude'
+        - $ref: '#/components/parameters/zoomLevel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerQueryBuilder'
+      responses:
+        '200':
+          $ref: '#/components/responses/CustomerResultsDto'
+        '400':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: Get All Customers
+      description: Get All Customer By Location
+      tags:
+        - customer-controller
+      operationId: retrievesAllCustomersByLocation
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/startLatitude'
+        - $ref: '#/components/parameters/endLatitude'
+        - $ref: '#/components/parameters/startLongitude'
+        - $ref: '#/components/parameters/endLongitude'
+        - $ref: '#/components/parameters/zoomLevel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CustomerResultsDto'
+  '/{salesOrgCode}/customer/filters':
+    get:
+      summary: Get All Customers
+      description: Get All Customer Filters
+      tags:
+        - customer-controller
+      operationId: getAllCustomerFilterValues
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilterRequestDto'
+      responses:
+        '200':
+          description: OK - Successful response
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CustomerFilterAggregationsDto'
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/{salesOrgCode}/customer/count':
+    get:
+      deprecated: true
+      summary: Count Customers
+      description: Count Customers by Sales Org
+      tags:
+        - customer-controller
+      operationId: countCustomers
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '200':
+          description: OK - Successful response
+          content:
+            application/hal+json:
+              schema:
+                type: integer
+                format: int64
+        '400':
+          $ref: '#/components/responses/Problem'
+    post:
+      summary: Count Customers
+      description: Count Customers by Sales Org
+      tags:
+        - customer-controller
+      operationId: retrievesCustomersNumber
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '200':
+          description: OK - Successful response
+          content:
+            application/hal+json:
+              schema:
+                type: integer
+                format: int64
+        '400':
+          $ref: '#/components/responses/Problem'
+  '/v2/{salesOrgCode}/customer/location':
+    get:
+      summary: Get All Customers
+      description: Get All Customer By Location
+      tags:
+        - customer-controller
+      operationId: getAllCustomersByLocationV2
+      parameters:
+        - $ref: '#/components/parameters/salesOrgCode'
+        - $ref: '#/components/parameters/startLatitude'
+        - $ref: '#/components/parameters/endLatitude'
+        - $ref: '#/components/parameters/startLongitude'
+        - $ref: '#/components/parameters/endLongitude'
+        - $ref: '#/components/parameters/zoomLevel'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/CustomerResultsDto'
+        '400':
+          $ref: '#/components/responses/Problem'
+  /kafka/partner/dlt/stop:
+    get:
+      summary: Stop Partner Listener
+      description: Stop Partner dead letter topic listener
+      tags:
+        - kafka-controller
+      operationId: stopPartnerDeadLetterTopicListener
+      responses:
+        '200':
+          description: OK - Successful response
+        '400':
+          $ref: '#/components/responses/Problem'
+  /kafka/partner/dlt/start:
+    get:
+      summary: Start Partner Listener
+      description: Start Partner dead letter topic listener
+      tags:
+        - kafka-controller
+      operationId: startPartnerDeadLetterTopicListener
+      responses:
+        '200':
+          description: OK - Successful response
+        '400':
+          $ref: '#/components/responses/Problem'
+  /kafka/customer/dlt/stop:
+    get:
+      summary: Stop Customer Listener
+      description: Stop Customer dead letter topic listener
+      tags:
+        - kafka-controller
+      operationId: stopCustomerDeadLetterTopicListener
+      responses:
+        '200':
+          description: OK - Successful response
+        '400':
+          $ref: '#/components/responses/Problem'
+  /kafka/customer/dlt/start:
+    get:
+      summary: Start Customer Listener
+      description: Start Customer dead letter topic listener
+      tags:
+        - kafka-controller
+      operationId: startCustomerDeadLetterTopicListener
+      responses:
+        '200':
+          description: OK - Successful response
+        '400':
+          $ref: '#/components/responses/Problem'
+components:
+  schemas:
+    VisitRequestDto:
+      description: The Visit Request Dto object
+      title: VisitRequestDto
+      type: object
+      properties:
+        nextVisit:
+          type: string
+          format: date-time
+          description: Next Visit property value
+          example: '2023-10-23T19:43:00.333Z'
+        lastVisit:
+          type: string
+          format: date-time
+          description: Last Visit property value
+          example: '2023-10-23T19:43:00.333Z'
+        executedVisits:
+          type: integer
+          format: int32
+          example: 1
+          description: Executed Visits property value
+        hasVisitProposal:
+          description: Has Vistit Proposal property value
+          type: boolean
+          example: true
+        visitProposalStatus:
+          description: Vistit Proposal Status property value
+          type: string
+          example: Monthly visit
+      example:
+        nextVisit: '2023-10-23T19:43:00.333Z'
+        lastVisit: '2023-10-23T19:43:00.333Z'
+        executedVisits: 1
+        hasVisitProposal: true
+        visitProposalStatus: Monthly visit
+    AddressDto:
+      description: The Address Dto object
+      title: AddressDto
+      type: object
+      properties:
+        country:
+          type: string
+          description: Country property string
+          example: SE
+        region:
+          type: string
+          description: Region property string
+          example: STOCKHOLM
+        city:
+          type: string
+          description: City property string
+          example: STOCKHOLM
+        postalCode:
+          type: string
+          description: Postal Code property string
+          example: 111 27
+        street:
+          type: string
+          description: Street Code property string
+          example: MUNKBROGATAN
+        houseNumber:
+          type: string
+          description: House Number property string
+          example: '1'
+      example:
+        country: SE
+        region: STOCKHOLM
+        city: STOCKHOLM
+        postalCode: 111 27
+        street: MUNKBROGATAN
+        houseNumber: '1'
+    ChainDto:
+      description: The Chain Dto object
+      title: ChainDto
+      type: object
+      properties:
+        chain1:
+          type: string
+          description: Chain1 string property value
+          example: No chain SE lvl 1
+        chain2:
+          type: string
+          description: Chain2 string property value
+          example: No chain SE lvl 2
+        chain3:
+          type: string
+          description: Chain3 string property value
+          example: No chain SE lvl 3
+        chain4:
+          type: string
+          description: Chain4 string property value
+          example: No chain SE lvl 4
+      example:
+        chain1: No chain SE lvl 1
+        chain2: No chain SE lvl 2
+        chain3: No chain SE lvl 3
+        chain4: No chain SE lvl 4
+    ClassificationDto:
+      description: The Classification Dto object
+      title: ClassificationDto
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code string property value
+          example: B
+        description:
+          type: string
+          description: Description string property value
+          example: Gold
+      example:
+        code: B
+        description: Gold
+    ClassifierDto:
+      description: The Classifier Dto object
+      title: ClassifierDto
+      type: object
+      properties:
+        accountGroupCode:
+          type: string
+          description: Account Group Code string property value
+          example: Z010
+        salesDistrict:
+          type: string
+          description: Sales District string property value
+          example: SE SVH
+        salesGroupCode:
+          type: string
+          description: Sales Group Code string property value
+          example: D02
+        salesOrgCode:
+          type: string
+          description: SalesOrgCode string property value
+          example: D001
+        licenseClass:
+          type: string
+          description: LicenseClass string property value
+          example: NO LICENSE
+        logisticsClass:
+          type: string
+          description: LogisticsClass string property value
+          example: D
+        mission:
+          description: Mission pstring property value
+          example: Entertainment
+          type: string
+        status:
+          type: string
+          description: Status string property value
+          example: Active
+        termsOfPaymentCode:
+          type: string
+          description: Type Of Payments string property value
+          example: NT
+        termsOfPaymentDescription:
+          type: string
+          description: Terms of Payment string property value
+          example: No Terms
+      example:
+        accountGroupCode: Z010
+        salesDistrict: SE SVH
+        salesGroupCode: D02
+        salesOrgCode: D001
+        licenseClass: NO LICENSE
+        logisticsClass: D
+        mission: Entertainment
+        status: Active
+        termsOfPaymentCode: NT
+        termsOfPaymentDescription: No Terms
+    CollaboratorDto:
+      description: The Collaborator Dto object
+      title: CollaboratorDto
+      type: object
+      properties:
+        collaboratorId:
+          type: string
+          description: Collaborador Id string property value
+          example: '90005'
+        code:
+          type: string
+          description: Code string property value
+          example: Z1
+        description:
+          type: string
+          description: Description string property value
+          example: Collaborator
+        firstName:
+          type: string
+          description: First Name string property value
+          example: Hampus
+        lastName:
+          type: string
+          description: Last Name string property value
+          example: SEDVALL
+        email:
+          type: string
+          description: Email string property value
+          example: HAMPUS.SEDVALL@CARLSBERG.SE
+      example:
+        collaboratorId: '90005'
+        code: Z1
+        description: Collaborator
+        firstName: Hampus
+        lastName: SEDVALL
+        email: HAMPUS.SEDVALL@CARLSBERG.SE
+    ContactDto:
+      description: The Contact Dto object
+      title: ContactDto
+      type: object
+      properties:
+        crmContactId:
+          type: string
+          description: Crm ContactID string property value
+          example: '0139'
+        crmContactName:
+          type: string
+          description: Crm Contact Name string property value
+          example: Martin
+        phone:
+          type: string
+          description: Phone string property value
+          example: '0752471111'
+        contactName:
+          type: string
+          description: Contact Name string property value
+          example: Roth
+        mobilePhone:
+          type: string
+          description: Mobile Phone string property value
+          example: '0752471111'
+        mobileContactName:
+          type: string
+          description: Mobile Contact Name string property value
+          example: Roth
+        customerSupport:
+          type: string
+          description: Customer Support string property value
+          example: '0752471111'
+        email:
+          type: string
+          description: Email string property value
+          example: example@carlsberg.se
+        contactEmail:
+          type: string
+          description: Contact Email string property value
+          example: example@carlsberg.se
+      example:
+        crmContactId: '0139'
+        crmContactName: Martin
+        phone: '0752471111'
+        contactName: Roth
+        mobilePhone: '0752471111'
+        mobileContactName: Roth
+        customerSupport: '0752471111'
+        email: example@carlsberg.se
+        contactEmail: example@carlsberg.se
+    CustomerGeoPointDto:
+      description: The Customer Geo Point Dto object
+      title: CustomerGeoPointDto
+      type: object
+      properties:
+        lat:
+          description: Last number property value
+          type: number
+          format: double
+          example: 57.7248
+        lon:
+          description: Lon number property value
+          type: number
+          format: double
+          example: 11.9469
+      example:
+        lat: 57.7248
+        lon: 11.9469
+    CustomerPartnerDto:
+      description: The CustomerPartner Dto object
+      title: CustomerPartnerDto
+      type: object
+      properties:
+        customerId:
+          type: string
+          description: CustomerID string property value
+          example: '2502'
+        name:
+          type: string
+          description: Name string property value
+          example: PR
+        partnerCode:
+          type: string
+          description: Partner Code string property value
+          example: CR
+        isDefault:
+          type: boolean
+          description: Is Default boolean property value
+          example: true
+      example:
+        customerId: '2502'
+        name: PR
+        partnerCode: CR
+        isDefault: true
+    SalesOfficeDto:
+      description: The Sales Office Dto object
+      title: SalesOfficeDto
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code string property value
+          example: D003
+        description:
+          type: string
+          description: Description string property value
+          example: Off Trade South/West
+      example:
+        code: D003
+        description: Off Trade South/West
+    TradeChannelDto:
+      description: The Trade Channel Dto object
+      title: TradeChannelDto
+      type: object
+      properties:
+        tradeChannel1:
+          type: string
+          description: Trade Channel1 string property value
+          example: TC10
+        tradeChannel1Desc:
+          type: string
+          description: Trade Channel1 Desc string property value
+          example: Off-trade
+        tradeChannel2:
+          type: string
+          description: Trade Channel2 string property value
+          example: TC1010
+        tradeChannel2Desc:
+          type: string
+          description: Trade Channel2 Desc string property value
+          example: Main Grocery
+        tradeChannel3:
+          type: string
+          description: Trade Channel3 string property value
+          example: TC101040
+        tradeChannel3Desc:
+          type: string
+          description: Trade Channel3 Desc string property value
+          example: Discount
+        tradeChannel4:
+          type: string
+          description: Trade Channel4 string property value
+          example: TC10104010
+        tradeChannel4Desc:
+          type: string
+          description: Trade Channel4 Desc string property value
+          example: Hard Discount
+      example:
+        tradeChannel1: TC10
+        tradeChannel1Desc: Off-trade
+        tradeChannel2: TC1010
+        tradeChannel2Desc: Main Grocery
+        tradeChannel3: TC101040
+        tradeChannel3Desc: Discount
+        tradeChannel4: TC10104010
+        tradeChannel4Desc: Hard Discount
+    VisitBulkRequestDto:
+      description: The Visit Bulk Dto object
+      title: VisitBulkRequestDto
+      type: object
+      properties:
+        customerIds:
+          type: array
+          description: The Customer Ids array object
+          items:
+            type: string
+          example:
+            - '123456789'
+        visitRequestDto:
+          $ref: '#/components/schemas/VisitRequestDto'
+      example:
+        customerIds:
+          - string
+        visitRequestDto:
+          nextVisit: '2023-10-23T19:43:00.333Z'
+          lastVisit: '2023-10-23T19:43:00.333Z'
+          executedVisits: 1
+          hasVisitProposal: true
+          visitProposalStatus: Entertainment
+    Pageable:
+      title: Pageable
+      type: object
+      description: The Pageable entity object
+      properties:
+        page:
+          description: The page property value
+          minimum: 0
+          type: integer
+          format: int32
+          example: 1
+        size:
+          description: The size property value
+          minimum: 1
+          type: integer
+          format: int32
+          example: 1
+        sort:
+          description: The sort array value
+          type: array
+          items:
+            type: string
+          example:
+            - string
+    CustomersByPartnersRequest:
+      description: The Customer Partners Request
+      title: CustomersByPartnersRequest
+      type: object
+      properties:
+        partners:
+          type: array
+          description: The Partners Ids array object
+          items:
+            $ref: '#/components/schemas/CustomerPartnerDto'
+          example:
+            - customerId: '1023'
+              name: Partner
+              partnerCode: CR
+              isDefault: true
+        sort:
+          $ref: '#/components/schemas/Sort'
+    Sort:
+      description: The Sort Dto object value
+      title: Sort
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: The Field Name Enum Value
+          enum:
+            - ACCOUNT_GROUP_CODE
+            - CHAIN_1
+            - CHAIN_2
+            - CHAIN_3
+            - CHAIN_4
+            - CITY
+            - CLASSIFICATION
+            - CLASSIFICATION_DESC
+            - CLASSIFICATION_LABEL
+            - COLLABORATOR_LABEL
+            - COLLABORATOR_ID
+            - COLLABORATOR_CODE
+            - COLLABORATOR_EMAIL
+            - COLLABORATOR_FIRST_NAME
+            - COLLABORATOR_LAST_NAME
+            - CUSTOMER_ID
+            - EXECUTED_VISITS
+            - VISIT_STATISTIC
+            - EXT_PUB_SEGMENTATION
+            - FIT_SCORE
+            - HAS_VISIT_PROPOSAL
+            - LEGAL_NAME
+            - LICENSE_CLASS
+            - LOGISTICS_CLASS
+            - LOCATION
+            - LATITUDE
+            - LAST_VISIT
+            - LONGITUDE
+            - MISSION
+            - NAME
+            - NEXT_VISIT
+            - OUTLET_DEFINITION
+            - OUTLET_IMAGE
+            - OUTLET_LABEL
+            - ORGANIZATION_NUMBER
+            - PARTNER_ID
+            - PARTNER_CODE
+            - PARTNER_NAME
+            - PRIORITY
+            - REGION
+            - SALES_DISTRICT
+            - SALES_GROUP_CODE
+            - SALES_OFFICE_CODE
+            - SALES_OFFICE_LABEL
+            - SEASON
+            - STATUS
+            - STREET
+            - TRADECHANNEL_1
+            - TRADECHANNEL_2
+            - TRADECHANNEL_3
+            - TRADECHANNEL_4
+            - TRADECHANNEL_1_DESC
+            - TRADECHANNEL_2_DESC
+            - TRADECHANNEL_3_DESC
+            - TRADECHANNEL_4_DESC
+            - VISITS_PER_YEAR
+            - ZIP_CODE
+          example: ACCOUNT_GROUP_CODE
+        direction:
+          type: string
+          description: Direction Enum values
+          enum:
+            - ASC
+            - DESC
+          example: DESC
+        position:
+          $ref: '#/components/schemas/CustomerGeoPointDto'
+      example:
+        fieldName: ACCOUNT_GROUP_CODE
+        direction: ASC
+        position:
+          lat: 57.6368
+          lon: 18.3264
+    PageableObject:
+      description: The Pageable object entity
+      title: PageableObject
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          description: The Page Number property number
+          format: int32
+          example: 1
+        pageSize:
+          type: integer
+          description: The Page Size property number
+          format: int32
+          example: 1
+        paged:
+          type: boolean
+          description: Paged boolean property
+          example: true
+        unpaged:
+          type: boolean
+          description: Unpaged boolean property
+          example: true
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        offset:
+          type: integer
+          description: The offset property number
+          format: int64
+          example: 1
+      example:
+        sort:
+          sorted: false
+          unsorted: true
+          empty: true
+        pageNumber: 0
+        pageSize: 20
+        offset: 0
+        unpaged: false
+        paged: true
+    SortObject:
+      description: The Sort Entity object
+      title: SortObject
+      type: object
+      properties:
+        sorted:
+          description: The sorted boolean property
+          type: boolean
+          example: true
+        unsorted:
+          description: The unsorted boolean property
+          type: boolean
+          example: true
+        empty:
+          description: The empty boolean property
+          type: boolean
+          example: true
+      example:
+        sorted: true
+        unsorted: true
+        empty: true
+    CustomerQueryBuilder:
+      title: CustomerQueryBuilder
+      description: The Customer Query Builder Object
+      type: object
+      properties:
+        fieldGroups:
+          type: array
+          description: The Field Groups array property
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/FieldQuery'
+          example:
+            - - field:
+                  name: TRADECHANNEL_2
+                  filterType: MATCH
+                value:
+                  value: TC1010
+        sort:
+          $ref: '#/components/schemas/Sort'
+      example:
+        fieldGroups:
+          - - field:
+                name: ACCOUNT_GROUP_CODE
+                filterType: MATCH
+              value:
+                value: TC1010
+              boost: 1
+        sort:
+          fieldName: ACCOUNT_GROUP_CODE
+          direction: DESC
+          position:
+            lat: 57.6368
+            lon: 18.3264
+    CustomerRequest:
+      title: CustomerRequest
+      description: The Customer Request Object
+      type: object
+      properties:
+        customerQueryBuilder:
+          $ref: '#/components/schemas/CustomerQueryBuilder'
+        fullTextQuery:
+          $ref: '#/components/schemas/FullTextQuery'
+      example:
+        customerQueryBuilder:
+          fieldGroups:
+            - - field:
+                  name: ACCOUNT_GROUP_CODE
+                  filterType: MATCH
+                value:
+                  value: TC1010
+                boost: 1
+          sort:
+            fieldName: ACCOUNT_GROUP_CODE
+            direction: DESC
+            position:
+              lat: 57.6368
+              lon: 18.3264
+        fullTextQuery:
+          textQuery: '123456'
+          affectedFields:
+            CUSTOMER_ID: 10.1231
+            ORGANIZATION_NUMBER: 22.1231
+    Field:
+      title: Field
+      description: The Field Entity Object
+      required:
+        - filterType
+        - name
+      type: object
+      properties:
+        name:
+          description: The Name Enum Values
+          type: string
+          enum:
+            - ACCOUNT_GROUP_CODE
+            - CHAIN_1
+            - CHAIN_2
+            - CHAIN_3
+            - CHAIN_4
+            - CITY
+            - CLASSIFICATION
+            - CLASSIFICATION_DESC
+            - CLASSIFICATION_LABEL
+            - COLLABORATOR_LABEL
+            - COLLABORATOR_ID
+            - COLLABORATOR_CODE
+            - COLLABORATOR_EMAIL
+            - COLLABORATOR_FIRST_NAME
+            - COLLABORATOR_LAST_NAME
+            - CUSTOMER_ID
+            - EXECUTED_VISITS
+            - VISIT_STATISTIC
+            - EXT_PUB_SEGMENTATION
+            - FIT_SCORE
+            - HAS_VISIT_PROPOSAL
+            - LEGAL_NAME
+            - LICENSE_CLASS
+            - LOGISTICS_CLASS
+            - LOCATION
+            - LATITUDE
+            - LAST_VISIT
+            - LONGITUDE
+            - MISSION
+            - NAME
+            - NEXT_VISIT
+            - OUTLET_DEFINITION
+            - OUTLET_IMAGE
+            - OUTLET_LABEL
+            - ORGANIZATION_NUMBER
+            - PARTNER_ID
+            - PARTNER_CODE
+            - PARTNER_NAME
+            - PRIORITY
+            - REGION
+            - SALES_DISTRICT
+            - SALES_GROUP_CODE
+            - SALES_OFFICE_CODE
+            - SALES_OFFICE_LABEL
+            - SEASON
+            - STATUS
+            - STREET
+            - TRADECHANNEL_1
+            - TRADECHANNEL_2
+            - TRADECHANNEL_3
+            - TRADECHANNEL_4
+            - TRADECHANNEL_1_DESC
+            - TRADECHANNEL_2_DESC
+            - TRADECHANNEL_3_DESC
+            - TRADECHANNEL_4_DESC
+            - VISITS_PER_YEAR
+            - ZIP_CODE
+          example: ZIP_CODE
+        filterType:
+          type: string
+          description: The Filter Type Enum Value
+          enum:
+            - MATCH
+            - GEODISTANCE
+            - INTERVALS
+            - NULL_VALUE
+            - QUERY
+            - QUERY_AUTOCOMPLETE
+            - MULTI_MATCH
+          example: MULTI_MATCH
+      example:
+        name: ACCOUNT_GROUP_CODE
+        filterType: MATCH
+    FieldQuery:
+      description: The Field Query Object
+      title: FieldQuery
+      required:
+        - field
+      type: object
+      properties:
+        field:
+          $ref: '#/components/schemas/Field'
+        value:
+          type: object
+          description: The value entity object
+          example:
+            value: TC1010
+        boost:
+          type: number
+          description: The Bost number property
+          format: float
+          example: 1
+      example:
+        field:
+          name: ACCOUNT_GROUP_CODE
+          filterType: MATCH
+        value:
+          value: TC1010
+        boost: 1
+    FullTextQuery:
+      description: The Full Text Query Object
+      title: FullTextQuery
+      type: object
+      properties:
+        textQuery:
+          type: string
+          description: The Text Query string property
+          example: '123456'
+        affectedFields:
+          type: object
+          description: The affected fields entity object
+          additionalProperties:
+            type: number
+            format: float
+          example:
+            ACCOUNT_GROUP_CODE: -3.402823669209385e+38
+            CHAIN_1: -3.402823669209385e+38
+      example:
+        textQuery: '123456'
+        affectedFields:
+          ACCOUNT_GROUP_CODE: -3.402823669209385e+38
+          CHAIN_1: -3.402823669209385e+38
+    CustomerSearchResultsDto:
+      description: The Customers Search Results Dto
+      title: CustomerSearchResultsDto
+      type: object
+      properties:
+        customers:
+          type: array
+          description: The Customers Array property
+          items:
+            $ref: '#/components/schemas/CustomerDto'
+          example:
+            - id: '1322707'
+              group: '2.0'
+              executedVisits: 1
+              visitStatistic: 1
+              fitScore: 1
+              hasVisitProposal: true
+              visitProposalStatus: Entertainment
+              location:
+                lat: 57.7248
+                lon: 11.9469
+              name: HISINGEN
+              legalName: ÖoB HISINGEN 16
+              organizationNumber: SE556439812
+              outletDefinition: Live Music
+              outletImage: Mainstream
+              minOrderQuantity: 1
+              minOrderValue: 1
+              season: Year Round
+              visitsPerYear: '0'
+              volume: <10 L
+              address:
+                country: SE
+                region: GÖTEBORG
+                city: GÖTEBORG
+                postalCode: '417'
+                street: GAMLA 15A
+                houseNumber: '05'
+              chain:
+                chain1: Local chains SE lvl 1
+                chain2: Local chains SE lvl 2
+                chain3: Brewhouse
+                chain4: Brewhouse
+              classifier:
+                accountGroupCode: Z010
+                salesDistrict: SE DVH
+                salesGroupCode: D02
+                salesOrgCode: D001
+                licenseClass: NO LICENSE
+                logisticsClass: A
+                mission: Entertainment
+                status: Active
+                termsOfPaymentCode: T
+                termsOfPaymentDescription: Terms Desc
+              classification:
+                code: B
+                description: Gold
+              contact:
+                crmContactId: '010700000'
+                crmContactName: cr@ocontact.se
+                phone: '010700000'
+                contactName: HISINGEN
+                mobilePhone: '010700000'
+                mobileContactName: HISINGEN
+                customerSupport: HISINGEN
+                email: cr@ocontact.se
+                contactEmail: cr@ocontact.se
+              salesOffice:
+                code: D003
+                description: Off Trade South/West
+              collaborators:
+                - collaboratorId: '2502'
+                  code: Z1
+                  description: TAI CECI
+                  firstName: CECI
+                  lastName: 'TAI '
+                  email: tai@carlsberg.asia
+              partners:
+                - customerId: '2502'
+                  name: PR
+                  partnerCode: CR
+                  isDefault: true
+              tradeChannels:
+                tradeChannel1: TC20
+                tradeChannel1Desc: On-trade
+                tradeChannel2: TC2030
+                tradeChannel2Desc: Entertainment
+                tradeChannel3: TC203000
+                tradeChannel3Desc: Entertainment
+                tradeChannel4: TC20300000
+                tradeChannel4Desc: Entertainment
+              nextVisit: '2023-10-23T19:43:00.333Z'
+              lastVisit: '2023-10-23T19:43:00.333Z'
+              storeId: '1'
+              extPubSegmentation: PUB
+              priority: PR
+              creationDate: '2019-08-24'
+        page:
+          $ref: '#/components/schemas/PageDto'
+    PageDto:
+      title: PageDto
+      type: object
+      description: The page dto entity object
+      properties:
+        pageSize:
+          description: The pageSize property value
+          type: integer
+          format: int32
+          example: 1
+        page:
+          description: The page property value
+          type: integer
+          format: int32
+          example: 1
+        totalNumber:
+          description: The totalNumber property valueqqqqqqqqqqqqqq
+          type: integer
+          format: int32
+          example: 1
+        totalPages:
+          description: The totalPages property value
+          type: integer
+          format: int32
+          example: 1
+      example:
+        pageSize: 0
+        page: 0
+        totalNumber: 0
+        totalPages: 0
+    CustomerClusterDto:
+      description: The Customer Cluster Dto
+      title: CustomerClusterDto
+      type: object
+      properties:
+        total:
+          type: integer
+          description: The Total property number
+          format: int64
+          example: 1
+        centroid:
+          $ref: '#/components/schemas/CustomerGeoPointDto'
+        customers:
+          type: array
+          description: The Customers Array property
+          items:
+            $ref: '#/components/schemas/CustomerDto'
+          example:
+            - id: '1322707'
+              group: '2.0'
+              executedVisits: 1
+              visitStatistic: 1
+              fitScore: 1
+              hasVisitProposal: true
+              visitProposalStatus: Entertainment
+              location:
+                lat: 57.7248
+                lon: 11.9469
+              name: HISINGEN
+              legalName: ÖoB HISINGEN 16
+              organizationNumber: SE556439812
+              outletDefinition: Live Music
+              outletImage: Mainstream
+              minOrderQuantity: 1
+              minOrderValue: 1
+              season: Year Round
+              visitsPerYear: '0'
+              volume: <10 L
+              address:
+                country: SE
+                region: GÖTEBORG
+                city: GÖTEBORG
+                postalCode: '417'
+                street: GAMLA 15A
+                houseNumber: '05'
+              chain:
+                chain1: Local chains SE lvl 1
+                chain2: Local chains SE lvl 2
+                chain3: Brewhouse
+                chain4: Brewhouse
+              classifier:
+                accountGroupCode: Z010
+                salesDistrict: SE DVH
+                salesGroupCode: D02
+                salesOrgCode: D001
+                licenseClass: NO LICENSE
+                logisticsClass: A
+                mission: Entertainment
+                status: Active
+                termsOfPaymentCode: T
+                termsOfPaymentDescription: Terms Desc
+              classification:
+                code: B
+                description: Gold
+              contact:
+                crmContactId: '010700000'
+                crmContactName: cr@ocontact.se
+                phone: '010700000'
+                contactName: HISINGEN
+                mobilePhone: '010700000'
+                mobileContactName: HISINGEN
+                customerSupport: HISINGEN
+                email: cr@ocontact.se
+                contactEmail: cr@ocontact.se
+              salesOffice:
+                code: D003
+                description: Off Trade South/West
+              collaborators:
+                - collaboratorId: '2502'
+                  code: Z1
+                  description: TAI CECI
+                  firstName: CECI
+                  lastName: 'TAI '
+                  email: tai@carlsberg.asia
+              partners:
+                - customerId: '2502'
+                  name: PR
+                  partnerCode: CR
+                  isDefault: true
+              tradeChannels:
+                tradeChannel1: TC20
+                tradeChannel1Desc: On-trade
+                tradeChannel2: TC2030
+                tradeChannel2Desc: Entertainment
+                tradeChannel3: TC203000
+                tradeChannel3Desc: Entertainment
+                tradeChannel4: TC20300000
+                tradeChannel4Desc: Entertainment
+              nextVisit: '2023-10-23T19:43:00.333Z'
+              lastVisit: '2023-10-23T19:43:00.333Z'
+              storeId: '1'
+              extPubSegmentation: PUB
+              priority: PR
+              creationDate: '2019-08-24'
+    CustomerFilterAggregationsRequestDto:
+      title: CustomerFilterAggregationsRequestDto
+      description: Customer Filter Aggregation Request Dto
+      type: object
+      properties:
+        fieldsGroups:
+          type: array
+          description: The Fields Groups Array property
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/FieldQuery'
+          example:
+            - - field:
+                  name: TRADECHANNEL_2
+                  filterType: MATCH
+                value:
+                  value: TC1010
+        fieldsToAggregate:
+          type: array
+          description: The Fields To Aggreate Array property
+          items:
+            type: string
+            description: The Fields to Aggregate Enum Value
+            enum:
+              - ACCOUNT_GROUP_CODE
+              - CHAIN_1
+              - CHAIN_2
+              - CHAIN_3
+              - CHAIN_4
+              - CITY
+              - CLASSIFICATION
+              - CLASSIFICATION_DESC
+              - CLASSIFICATION_LABEL
+              - COLLABORATOR_LABEL
+              - COLLABORATOR_ID
+              - COLLABORATOR_CODE
+              - COLLABORATOR_EMAIL
+              - COLLABORATOR_FIRST_NAME
+              - COLLABORATOR_LAST_NAME
+              - CUSTOMER_ID
+              - EXECUTED_VISITS
+              - VISIT_STATISTIC
+              - EXT_PUB_SEGMENTATION
+              - FIT_SCORE
+              - HAS_VISIT_PROPOSAL
+              - LEGAL_NAME
+              - LICENSE_CLASS
+              - LOGISTICS_CLASS
+              - LOCATION
+              - LATITUDE
+              - LAST_VISIT
+              - LONGITUDE
+              - MISSION
+              - NAME
+              - NEXT_VISIT
+              - OUTLET_DEFINITION
+              - OUTLET_IMAGE
+              - OUTLET_LABEL
+              - ORGANIZATION_NUMBER
+              - PARTNER_ID
+              - PARTNER_CODE
+              - PARTNER_NAME
+              - PRIORITY
+              - REGION
+              - SALES_DISTRICT
+              - SALES_GROUP_CODE
+              - SALES_OFFICE_CODE
+              - SALES_OFFICE_LABEL
+              - SEASON
+              - STATUS
+              - STREET
+              - TRADECHANNEL_1
+              - TRADECHANNEL_2
+              - TRADECHANNEL_3
+              - TRADECHANNEL_4
+              - TRADECHANNEL_1_DESC
+              - TRADECHANNEL_2_DESC
+              - TRADECHANNEL_3_DESC
+              - TRADECHANNEL_4_DESC
+              - VISITS_PER_YEAR
+              - ZIP_CODE
+          example:
+            - ACCOUNT_GROUP_CODE
+            - REGION
+            - ZIP_CODE
+      example:
+        fieldsGroups:
+          - - field:
+                name: ACCOUNT_GROUP_CODE
+                filterType: MATCH
+              value:
+                value: TC1010
+              boost: 1
+        fieldsToAggregate:
+          - ACCOUNT_GROUP_CODE
+          - REGION
+          - ZIP_CODE
+    FilterRequestDto:
+      description: The Filter Request Dto
+      title: FilterRequestDto
+      type: object
+      properties:
+        customerFilterAggregationsRequestDto:
+          $ref: '#/components/schemas/CustomerFilterAggregationsRequestDto'
+        fullTextQuery:
+          $ref: '#/components/schemas/FullTextQuery'
+    CustomerFilterAggregationsDto:
+      description: The Customer Filter Aggregations Dto
+      title: CustomerFilterAggregationsDto
+      type: object
+      properties:
+        fieldAggregations:
+          type: object
+          description: Field Aggreations object
+          additionalProperties:
+            type: array
+            description: Additional Properties array
+            items:
+              type: string
+          example:
+            STATUS:
+              - Active
+            SEASON:
+              - Event
+      example:
+        fieldAggregations:
+          STATUS:
+            - Active
+          SEASON:
+            - Event
+            - Summer
+    CustomerDto:
+      description: The Customer Dto object
+      title: CustomerDto
+      type: object
+      properties:
+        id:
+          type: string
+          description: Id string property value
+          example: '1322707'
+        group:
+          type: string
+          description: Group string property value
+          example: '2.0'
+        executedVisits:
+          type: integer
+          description: Executed Visits number property value
+          format: int32
+          example: 1
+        visitStatistic:
+          type: integer
+          description: Visit Statisct number property value
+          format: int32
+          example: 1
+        fitScore:
+          type: integer
+          description: Fit Score number property value
+          format: int32
+          example: 1
+        hasVisitProposal:
+          type: boolean
+          description: Has Visit Proposal boolean property value
+          example: true
+        visitProposalStatus:
+          type: string
+          description: Visit Proposal Status string property value
+          example: Entertainment
+        location:
+          $ref: '#/components/schemas/CustomerGeoPointDto'
+        name:
+          type: string
+          description: Name string property value
+          example: HISINGEN
+        legalName:
+          type: string
+          description: Legal string property value
+          example: ÖoB HISINGEN 16
+        organizationNumber:
+          type: string
+          description: Organization Number string property value
+          example: SE556439812
+        outletDefinition:
+          type: string
+          description: Outlet Definition string property value
+          example: Live Music
+        outletImage:
+          type: string
+          description: Outlet Image string property value
+          example: Mainstream
+        minOrderQuantity:
+          type: integer
+          description: MinOrder Quantity number property value
+          format: int32
+          example: 1
+        minOrderValue:
+          type: number
+          description: Min Order Value number property value
+          format: double
+          example: 1
+        season:
+          type: string
+          description: Season string property value
+          example: Year Round
+        visitsPerYear:
+          type: string
+          description: Visits Per Year string property value
+          example: '0'
+        volume:
+          type: string
+          description: Volume string property value
+          example: 10 - 25 L
+        address:
+          $ref: '#/components/schemas/AddressDto'
+        chain:
+          $ref: '#/components/schemas/ChainDto'
+        classifier:
+          $ref: '#/components/schemas/ClassifierDto'
+        classification:
+          $ref: '#/components/schemas/ClassificationDto'
+        contact:
+          $ref: '#/components/schemas/ContactDto'
+        salesOffice:
+          $ref: '#/components/schemas/SalesOfficeDto'
+        collaborators:
+          description: The Collaborators array object
+          type: array
+          items:
+            $ref: '#/components/schemas/CollaboratorDto'
+          example:
+            - collaboratorId: '2502'
+              code: Z1
+              description: TAI CECI
+              firstName: CECI
+              lastName: TAI
+              email: tai@carlsberg.asia
+        partners:
+          description: The Partners array object
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerPartnerDto'
+          example:
+            - customerId: '2502'
+              name: PR
+              partnerCode: CR
+              isDefault: true
+        tradeChannels:
+          $ref: '#/components/schemas/TradeChannelDto'
+        nextVisit:
+          type: string
+          format: date-time
+          description: The next visit date-time property
+          example: '2023-10-23T19:43:00.333Z'
+        lastVisit:
+          description: The last visit date-time property
+          type: string
+          format: date-time
+          example: '2023-10-23T19:43:00.333Z'
+        storeId:
+          type: string
+          description: Store Id string property value
+          example: '1'
+        extPubSegmentation:
+          type: string
+          description: Ext Pub Segmentation string property value
+          example: PUB
+        priority:
+          type: string
+          description: Priority string property value
+          example: PR
+        creationDate:
+          type: string
+          description: Creation Date string property value
+          format: date
+          example: '2023-12-01'
+      example:
+        id: '1322707'
+        group: '2.0'
+        executedVisits: 1
+        visitStatistic: 1
+        fitScore: 1
+        hasVisitProposal: true
+        visitProposalStatus: Entertainment
+        location:
+          lat: 57.7248
+          lon: 11.9469
+        name: HISINGEN
+        legalName: ÖoB HISINGEN 16
+        organizationNumber: SE556439812
+        outletDefinition: Live Music
+        outletImage: Mainstream
+        minOrderQuantity: 1
+        minOrderValue: 1
+        season: Year Round
+        visitsPerYear: '0'
+        volume: <10 L
+        address:
+          country: SE
+          region: GÖTEBORG
+          city: GÖTEBORG
+          postalCode: '417'
+          street: GAMLA 15A
+          houseNumber: '05'
+        chain:
+          chain1: Local chains SE lvl 1
+          chain2: Local chains SE lvl 2
+          chain3: Brewhouse
+          chain4: Brewhouse
+        classifier:
+          accountGroupCode: Z010
+          salesDistrict: SE DVH
+          salesGroupCode: D02
+          salesOrgCode: D001
+          licenseClass: NO LICENSE
+          logisticsClass: A
+          mission: Entertainment
+          status: Active
+          termsOfPaymentCode: T
+          termsOfPaymentDescription: Terms TP
+        classification:
+          code: B
+          description: Gold
+        contact:
+          crmContactId: '010700000'
+          crmContactName: cr@ocontact.se
+          phone: '010700000'
+          contactName: HISINGEN
+          mobilePhone: '010700000'
+          mobileContactName: HISINGEN
+          customerSupport: HISINGEN
+          email: cr@ocontact.se
+          contactEmail: cr@ocontact.se
+        salesOffice:
+          code: D003
+          description: Off Trade South/West
+        collaborators:
+          - collaboratorId: '2502'
+            code: Z1
+            description: TAI CECI
+            firstName: CECI
+            lastName: 'TAI '
+            email: tai@carlsberg.asia
+        partners:
+          - customerId: '2502'
+            name: PR
+            partnerCode: CR
+            isDefault: true
+        tradeChannels:
+          tradeChannel1: TC20
+          tradeChannel1Desc: On-trade
+          tradeChannel2: TC2030
+          tradeChannel2Desc: Entertainment
+          tradeChannel3: TC203000
+          tradeChannel3Desc: Entertainment
+          tradeChannel4: TC20300000
+          tradeChannel4Desc: Entertainment
+        nextVisit: '2023-10-23T19:43:00.333Z'
+        lastVisit: '2023-10-23T19:43:00.333Z'
+        storeId: '1'
+        extPubSegmentation: PUB
+        priority: PR
+        creationDate: '2019-08-24'
+  parameters:
+    salesOrgCode:
+      name: salesOrgCode
+      description: Sales Org Code parameter
+      in: path
+      required: true
+      schema:
+        type: string
+      example: '1010'
+    customerId:
+      name: customerId
+      description: The Customer Id parameter
+      in: path
+      required: true
+      schema:
+        type: string
+      example: '1322707'
+    page:
+      name: page
+      description: Page number property property
+      in: query
+      schema:
+        type: integer
+        format: int64
+      example: 1
+    size:
+      name: size
+      description: The page size property
+      in: query
+      schema:
+        type: integer
+      example: 1
+    field:
+      name: field
+      description: The sorting field property
+      in: query
+      schema:
+        type: string
+      example: id
+    startLatitude:
+      name: startLatitude
+      description: Start Latitude parameter
+      in: query
+      required: true
+      schema:
+        type: number
+        format: double
+      example: 57.7248
+    endLatitude:
+      name: endLatitude
+      description: End Latitude parameter
+      in: query
+      required: true
+      schema:
+        type: number
+        format: double
+      example: 11.9469
+    startLongitude:
+      name: startLongitude
+      description: Start Longitute parameter
+      in: query
+      required: true
+      schema:
+        type: number
+        format: double
+      example: 57.7248
+    endLongitude:
+      name: endLongitude
+      description: End Longitude parameter
+      in: query
+      required: true
+      schema:
+        type: number
+        format: double
+      example: 11.9469
+    zoomLevel:
+      name: zoomLevel
+      description: Zoom Level parameter
+      in: query
+      required: true
+      schema:
+        type: integer
+        format: int32
+      example: 1
+  responses:
+    Problem:
+      description: The problem response class
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                description: The type of problem value
+                example: Bad Request
+              title:
+                type: string
+                description: The problem message value
+                example: Error has occured
+              detail:
+                type: string
+                description: The problem detail message value
+                example: Missing mandatory fields
+              status:
+                type: string
+                description: The status message value
+                example: '400'
+            example:
+              title: Error has occured
+              type: Bad Request
+              status: '400'
+              detail: Missing mandatory fields
+    PageCustomerDto:
+      description: The Page Customer Dto object
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              totalElements:
+                type: integer
+                description: Total Elements property number
+                format: int64
+                example: 1
+              totalPages:
+                type: integer
+                description: Total Pages property number
+                format: int32
+                example: 1
+              pageable:
+                $ref: '#/components/schemas/PageableObject'
+              numberOfElements:
+                type: integer
+                description: Number of Elements property number
+                format: int32
+                example: 1
+              sort:
+                $ref: '#/components/schemas/SortObject'
+              first:
+                type: boolean
+                description: First boolean property
+                example: true
+              last:
+                type: boolean
+                description: First boolean property
+                example: true
+              size:
+                type: integer
+                description: The Size property number
+                format: int32
+                example: 1
+              content:
+                type: array
+                description: The Content Array property
+                items:
+                  $ref: '#/components/schemas/CustomerDto'
+                example:
+                  - id: '1322707'
+                    group: '2.0'
+                    executedVisits: 1
+                    visitStatistic: 1
+                    fitScore: 1
+                    hasVisitProposal: true
+                    visitProposalStatus: Entertainment
+                    location:
+                      lat: 57.7248
+                      lon: 11.9469
+                    name: HISINGEN
+                    legalName: ÖoB HISINGEN 16
+                    organizationNumber: SE556439812
+                    outletDefinition: Live Music
+                    outletImage: Mainstream
+                    minOrderQuantity: 1
+                    minOrderValue: 1
+                    season: Year Round
+                    visitsPerYear: '0'
+                    volume: <10 L
+                    address:
+                      country: SE
+                      region: GÖTEBORG
+                      city: GÖTEBORG
+                      postalCode: '417'
+                      street: GAMLA 15A
+                      houseNumber: '05'
+                    chain:
+                      chain1: Local chains SE lvl 1
+                      chain2: Local chains SE lvl 2
+                      chain3: Brewhouse
+                      chain4: Brewhouse
+                    classifier:
+                      accountGroupCode: Z010
+                      salesDistrict: SE DVH
+                      salesGroupCode: D02
+                      salesOrgCode: D001
+                      licenseClass: NO LICENSE
+                      logisticsClass: A
+                      mission: Entertainment
+                      status: Active
+                      termsOfPaymentCode: T
+                      termsOfPaymentDescription: Terms TP
+                    classification:
+                      code: B
+                      description: Gold
+                    contact:
+                      crmContactId: '010700000'
+                      crmContactName: cr@ocontact.se
+                      phone: '010700000'
+                      contactName: HISINGEN
+                      mobilePhone: '010700000'
+                      mobileContactName: HISINGEN
+                      customerSupport: HISINGEN
+                      email: cr@ocontact.se
+                      contactEmail: cr@ocontact.se
+                    salesOffice:
+                      code: D003
+                      description: Off Trade South/West
+                    collaborators:
+                      - collaboratorId: '2502'
+                        code: Z1
+                        description: TAI CECI
+                        firstName: CECI
+                        lastName: 'TAI '
+                        email: tai@carlsberg.asia
+                    partners:
+                      - customerId: '2502'
+                        name: PR
+                        partnerCode: CR
+                        isDefault: true
+                    tradeChannels:
+                      tradeChannel1: TC20
+                      tradeChannel1Desc: On-trade
+                      tradeChannel2: TC2030
+                      tradeChannel2Desc: Entertainment
+                      tradeChannel3: TC203000
+                      tradeChannel3Desc: Entertainment
+                      tradeChannel4: TC20300000
+                      tradeChannel4Desc: Entertainment
+                    nextVisit: '2023-10-23T19:43:00.333Z'
+                    lastVisit: '2023-10-23T19:43:00.333Z'
+                    storeId: '1'
+                    extPubSegmentation: PUB
+                    priority: PR
+                    creationDate: '2019-08-24'
+              number:
+                type: integer
+                description: The Number property number
+                format: int32
+                example: 1
+              empty:
+                type: boolean
+                description: Empty boolean property
+                example: true
+          examples:
+            Example 1:
+              value:
+                totalElements: 1
+                totalPages: 1
+                pageable:
+                  pageNumber: 1
+                  pageSize: 1
+                  paged: true
+                  unpaged: true
+                  sort:
+                    sorted: true
+                    unsorted: true
+                    empty: true
+                  offset: 1
+                numberOfElements: 1
+                sort:
+                  sorted: true
+                  unsorted: true
+                  empty: true
+                first: true
+                last: true
+                size: 1
+                content:
+                  - id: '1322707'
+                    group: '2.0'
+                    executedVisits: 1
+                    visitStatistic: 1
+                    fitScore: 1
+                    hasVisitProposal: true
+                    visitProposalStatus: Entertainment
+                    location:
+                      lat: 57.7248
+                      lon: 11.9469
+                    name: HISINGEN
+                    legalName: ÖoB HISINGEN 16
+                    organizationNumber: SE556439812
+                    outletDefinition: Live Music
+                    outletImage: Mainstream
+                    minOrderQuantity: 1
+                    minOrderValue: 1
+                    season: Year Round
+                    visitsPerYear: '0'
+                    volume: <10 L
+                    address:
+                      country: SE
+                      region: GÖTEBORG
+                      city: GÖTEBORG
+                      postalCode: '417'
+                      street: GAMLA 15A
+                      houseNumber: '05'
+                    chain:
+                      chain1: Local chains SE lvl 1
+                      chain2: Local chains SE lvl 2
+                      chain3: Brewhouse
+                      chain4: Brewhouse
+                    classifier:
+                      accountGroupCode: Z010
+                      salesDistrict: SE DVH
+                      salesGroupCode: D02
+                      salesOrgCode: D001
+                      licenseClass: NO LICENSE
+                      logisticsClass: A
+                      mission: Entertainment
+                      status: Active
+                      termsOfPaymentCode: T
+                      termsOfPaymentDescription: Terms Desc
+                    classification:
+                      code: B
+                      description: Gold
+                    contact:
+                      crmContactId: '010700000'
+                      crmContactName: cr@ocontact.se
+                      phone: '010700000'
+                      contactName: HISINGEN
+                      mobilePhone: '010700000'
+                      mobileContactName: HISINGEN
+                      customerSupport: HISINGEN
+                      email: cr@ocontact.se
+                      contactEmail: cr@ocontact.se
+                    salesOffice:
+                      code: D003
+                      description: Off Trade South/West
+                    collaborators:
+                      - collaboratorId: '2502'
+                        code: Z1
+                        description: TAI CECI
+                        firstName: CECI
+                        lastName: 'TAI '
+                        email: tai@carlsberg.asia
+                    partners:
+                      - customerId: '2502'
+                        name: PR
+                        partnerCode: CR
+                        isDefault: true
+                    tradeChannels:
+                      tradeChannel1: TC20
+                      tradeChannel1Desc: On-trade
+                      tradeChannel2: TC2030
+                      tradeChannel2Desc: Entertainment
+                      tradeChannel3: TC203000
+                      tradeChannel3Desc: Entertainment
+                      tradeChannel4: TC20300000
+                      tradeChannel4Desc: Entertainment
+                    nextVisit: '2023-10-23T19:43:00.333Z'
+                    lastVisit: '2023-10-23T19:43:00.333Z'
+                    storeId: '1'
+                    extPubSegmentation: PUB
+                    priority: PR
+                    creationDate: '2019-08-24'
+                number: 1
+                empty: true
+    CustomerResponse:
+      description: Customer Reponse Object
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CustomerDto'
+          examples:
+            Example 1:
+              value:
+                id: '1322707'
+                group: '2.0'
+                executedVisits: 1
+                visitStatistic: 1
+                fitScore: 1
+                hasVisitProposal: true
+                visitProposalStatus: Entertainment
+                location:
+                  lat: 57.7248
+                  lon: 11.9469
+                name: HISINGEN
+                legalName: ÖoB HISINGEN 16
+                organizationNumber: SE556439812
+                outletDefinition: Live Music
+                outletImage: Mainstream
+                minOrderQuantity: 1
+                minOrderValue: 1
+                season: Year Round
+                visitsPerYear: '0'
+                volume: <10 L
+                address:
+                  country: SE
+                  region: GÖTEBORG
+                  city: GÖTEBORG
+                  postalCode: '417'
+                  street: GAMLA 15A
+                  houseNumber: '05'
+                chain:
+                  chain1: Local chains SE lvl 1
+                  chain2: Local chains SE lvl 2
+                  chain3: Brewhouse
+                  chain4: Brewhouse
+                classifier:
+                  accountGroupCode: Z010
+                  salesDistrict: SE DVH
+                  salesGroupCode: D02
+                  salesOrgCode: D001
+                  licenseClass: NO LICENSE
+                  logisticsClass: A
+                  mission: Entertainment
+                  status: Active
+                  termsOfPaymentCode: T
+                  termsOfPaymentDescription: Terms TP
+                classification:
+                  code: B
+                  description: Gold
+                contact:
+                  crmContactId: '010700000'
+                  crmContactName: cr@ocontact.se
+                  phone: '010700000'
+                  contactName: HISINGEN
+                  mobilePhone: '010700000'
+                  mobileContactName: HISINGEN
+                  customerSupport: HISINGEN
+                  email: cr@ocontact.se
+                  contactEmail: cr@ocontact.se
+                salesOffice:
+                  code: D003
+                  description: Off Trade South/West
+                collaborators:
+                  - collaboratorId: '2502'
+                    code: Z1
+                    description: TAI CECI
+                    firstName: CECI
+                    lastName: 'TAI '
+                    email: tai@carlsberg.asia
+                partners:
+                  - customerId: '2502'
+                    name: PR
+                    partnerCode: CR
+                    isDefault: true
+                tradeChannels:
+                  tradeChannel1: TC20
+                  tradeChannel1Desc: On-trade
+                  tradeChannel2: TC2030
+                  tradeChannel2Desc: Entertainment
+                  tradeChannel3: TC203000
+                  tradeChannel3Desc: Entertainment
+                  tradeChannel4: TC20300000
+                  tradeChannel4Desc: Entertainment
+                nextVisit: '2023-10-23T19:43:00.333Z'
+                lastVisit: '2023-10-23T19:43:00.333Z'
+                storeId: '1'
+                extPubSegmentation: PUB
+                priority: PR
+                creationDate: '2019-08-24'
+    CustomerResultsDto:
+      description: The Customer Results Dto
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              clusters:
+                description: The Clusters Array property
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerClusterDto'
+                example:
+                  - total: 1
+                    centroid:
+                      lat: 1
+                      lon: 1
+                    customers:
+                      - id: '1322707'
+                        group: '2.0'
+                        executedVisits: 1
+                        visitStatistic: 1
+                        fitScore: 1
+                        hasVisitProposal: true
+                        visitProposalStatus: Entertainment
+                        location:
+                          lat: 57.7248
+                          lon: 11.9469
+                        name: HISINGEN
+                        legalName: ÖoB HISINGEN 16
+                        organizationNumber: SE556439812
+                        outletDefinition: Live Music
+                        outletImage: Mainstream
+                        minOrderQuantity: 1
+                        minOrderValue: 1
+                        season: Year Round
+                        visitsPerYear: '0'
+                        volume: <10 L
+                        address:
+                          country: SE
+                          region: GÖTEBORG
+                          city: GÖTEBORG
+                          postalCode: '417'
+                          street: GAMLA 15A
+                          houseNumber: '05'
+                        chain:
+                          chain1: Local chains SE lvl 1
+                          chain2: Local chains SE lvl 2
+                          chain3: Brewhouse
+                          chain4: Brewhouse
+                        classifier:
+                          accountGroupCode: Z010
+                          salesDistrict: SE DVH
+                          salesGroupCode: D02
+                          salesOrgCode: D001
+                          licenseClass: NO LICENSE
+                          logisticsClass: A
+                          mission: Entertainment
+                          status: Active
+                          termsOfPaymentCode: Terms
+                          termsOfPaymentDescription: Terms Desc
+                        classification:
+                          code: B
+                          description: Gold
+                        contact:
+                          crmContactId: '010700000'
+                          crmContactName: cr@ocontact.se
+                          phone: '010700000'
+                          contactName: HISINGEN
+                          mobilePhone: '010700000'
+                          mobileContactName: HISINGEN
+                          customerSupport: HISINGEN
+                          email: cr@ocontact.se
+                          contactEmail: cr@ocontact.se
+                        salesOffice:
+                          code: D003
+                          description: Off Trade South/West
+                        collaborators:
+                          - collaboratorId: '2502'
+                            code: Z1
+                            description: TAI CECI
+                            firstName: CECI
+                            lastName: 'TAI '
+                            email: tai@carlsberg.asia
+                        partners:
+                          - customerId: '2502'
+                            name: PR
+                            partnerCode: CR
+                            isDefault: true
+                        tradeChannels:
+                          tradeChannel1: TC20
+                          tradeChannel1Desc: On-trade
+                          tradeChannel2: TC2030
+                          tradeChannel2Desc: Entertainment
+                          tradeChannel3: TC203000
+                          tradeChannel3Desc: Entertainment
+                          tradeChannel4: TC20300000
+                          tradeChannel4Desc: Entertainment
+                        nextVisit: '2023-10-23T19:43:00.333Z'
+                        lastVisit: '2023-10-23T19:43:00.333Z'
+                        storeId: '1'
+                        extPubSegmentation: PUB
+                        priority: PR
+                        creationDate: '2019-08-24'
+          example:
+            clusters:
+              - total: 1
+                centroid:
+                  lat: 1
+                  lon: 1
+                customers:
+                  - id: '1322707'
+                    group: '2.0'
+                    executedVisits: 1
+                    visitStatistic: 1
+                    fitScore: 1
+                    hasVisitProposal: true
+                    visitProposalStatus: Entertainment
+                    location:
+                      lat: 57.7248
+                      lon: 11.9469
+                    name: HISINGEN
+                    legalName: ÖoB HISINGEN 16
+                    organizationNumber: SE556439812
+                    outletDefinition: Live Music
+                    outletImage: Mainstream
+                    minOrderQuantity: 1
+                    minOrderValue: 1
+                    season: Year Round
+                    visitsPerYear: '0'
+                    volume: <10 L
+                    address:
+                      country: SE
+                      region: GÖTEBORG
+                      city: GÖTEBORG
+                      postalCode: '417'
+                      street: GAMLA 15A
+                      houseNumber: '05'
+                    chain:
+                      chain1: Local chains SE lvl 1
+                      chain2: Local chains SE lvl 2
+                      chain3: Brewhouse
+                      chain4: Brewhouse
+                    classifier:
+                      accountGroupCode: Z010
+                      salesDistrict: SE DVH
+                      salesGroupCode: D02
+                      salesOrgCode: D001
+                      licenseClass: NO LICENSE
+                      logisticsClass: A
+                      mission: Entertainment
+                      status: Active
+                      termsOfPaymentCode: Terms
+                      termsOfPaymentDescription: Terms Desc
+                    classification:
+                      code: B
+                      description: Gold
+                    contact:
+                      crmContactId: '010700000'
+                      crmContactName: cr@ocontact.se
+                      phone: '010700000'
+                      contactName: HISINGEN
+                      mobilePhone: '010700000'
+                      mobileContactName: HISINGEN
+                      customerSupport: HISINGEN
+                      email: cr@ocontact.se
+                      contactEmail: cr@ocontact.se
+                    salesOffice:
+                      code: D003
+                      description: Off Trade South/West
+                    collaborators:
+                      - collaboratorId: '2502'
+                        code: Z1
+                        description: TAI CECI
+                        firstName: CECI
+                        lastName: 'TAI '
+                        email: tai@carlsberg.asia
+                    partners:
+                      - customerId: '2502'
+                        name: PR
+                        partnerCode: CR
+                        isDefault: true
+                    tradeChannels:
+                      tradeChannel1: TC20
+                      tradeChannel1Desc: On-trade
+                      tradeChannel2: TC2030
+                      tradeChannel2Desc: Entertainment
+                      tradeChannel3: TC203000
+                      tradeChannel3Desc: Entertainment
+                      tradeChannel4: TC20300000
+                      tradeChannel4Desc: Entertainment
+                    nextVisit: '2023-10-23T19:43:00.333Z'
+                    lastVisit: '2023-10-23T19:43:00.333Z'
+                    storeId: '1'
+                    extPubSegmentation: PUB
+                    priority: PR
+                    creationDate: '2019-08-24'
