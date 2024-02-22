@@ -86,7 +86,7 @@ paths:
         '400':
           $ref: '#/components/responses/400'
       operationId: returnSalesOrgs
-      description: Return all SalesOrgs
+      description: The method returns all the known Sales Organizations also knows as SalesOrgs identified by a unique code.
 components:
   schemas:
     SalesOrgCreate-v1:
