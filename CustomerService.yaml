@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Customer Services
   description: 'This service exposes customer information (with origin on ERP master data) in a useful, searchable way, allowing also the addition of custom extra information.'
-  version: v1
+  version: v2
   contact:
     name: Platform Team
 servers:
