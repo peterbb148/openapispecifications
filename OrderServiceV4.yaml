@@ -71,7 +71,7 @@ paths:
   /orders/searchBySalesOrgOutletOrder:
     get:
       summary: Orders By Sales Org and Outlet
-      description: List Orders By Sales Org and Outlet Order
+      description: Search for orders by SalesOrg and fromDate and endDate. The endpoint also supports paging and page size parameter.
       tags:
         - order-controller-v-4
       operationId: getOrdersByOutletOrOrderNumberAndSalesOrg
