@@ -1,0 +1,384 @@
+openapi: 3.0.3
+x-stoplight:
+  id: f1c0b71b345e7
+info:
+  title: cx-salesorgs-service
+  version: v1
+  description: Service to manage sales organisations information
+  contact:
+    name: Platform Team
+    email: 2c369a0e.carlsberggroup.onmicrosoft.com@emea.teams.ms
+tags:
+  - name: SalesOrgController
+    description: Sales Org Controller
+servers:
+  - url: 'https://api.tst.carlsbergwebservices.com/sales-org'
+    description: Sales Orgs API server url
+paths:
+  '/salesOrgs/{salesOrgCode}':
+    parameters:
+      - $ref: '#/components/parameters/salesOrgCode'
+    get:
+      summary: Return SalesOrg by code
+      operationId: returnSalesOrg
+      responses:
+        '200':
+          $ref: '#/components/responses/SalesOrg'
+        '400':
+          $ref: '#/components/responses/400'
+      tags:
+        - SalesOrgController
+      description: |-
+        Return SalesOrg by Sales org code
+
+            Possible error codes:
+            - SOR-001
+    post:
+      summary: Create new SalesOrg
+      operationId: createSalesOrg
+      responses:
+        '200':
+          $ref: '#/components/responses/SalesOrg'
+        '400':
+          $ref: '#/components/responses/400'
+      tags:
+        - SalesOrgController
+      requestBody:
+        $ref: '#/components/requestBodies/CreateSalesOrg'
+      description: |-
+        Creates a new SalesOrg based on the request body
+            
+            Possible error codes:
+            - SOR-000
+            - SOR-002
+    put:
+      summary: Update SalesOrg by code
+      operationId: updatesalesOrg
+      responses:
+        '200':
+          $ref: '#/components/responses/SalesOrg'
+        '400':
+          $ref: '#/components/responses/400'
+      tags:
+        - SalesOrgController
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateSalesOrg'
+      description: |-
+        Updates an existing SalesOrg (by the sales org code in the path) based on the request body
+
+        At least one of the body fields must be not null
+
+        Possible error codes:
+        - SOR-000
+        - SOR-001
+        - SOR-003
+  /salesOrgs:
+    get:
+      summary: Return all SalesOrgs
+      parameters:
+        - $ref: '#/components/parameters/size'
+        - $ref: '#/components/parameters/token'
+      tags:
+        - SalesOrgController
+      responses:
+        '200':
+          $ref: '#/components/responses/SalesOrgPage'
+        '400':
+          $ref: '#/components/responses/400'
+      operationId: returnSalesOrgs
+      description: Return all SalesOrgs
+components:
+  schemas:
+    SalesOrgCreate-v1:
+      title: salesOrgCreate-v1
+      x-stoplight:
+        id: bpwdylpv969w7
+      type: object
+      description: Sales organization model with mandatory fields to create new sales org
+      properties:
+        description:
+          type: string
+          description: Sales organization description
+          example: Sales Org
+        alpha2:
+          type: string
+          minLength: 1
+          maxLength: 2
+          description: Country code ISO 3166-1 alfa-2
+          example: SO
+        alpha3:
+          type: string
+          maxLength: 3
+          description: Country code ISO 3166-1 alfa-3
+          example: SOR
+          minLength: 1
+        status:
+          type: string
+          example: ENABLED
+          description: Sales organization status
+        infraDetails:
+          type: object
+          x-stoplight:
+            id: es6af4ham5h76
+          description: Sales organization infra details metadata
+          example:
+            itemA: A
+            itemB: B
+            itemC: C
+      required:
+        - description
+        - alpha2
+        - alpha3
+        - status
+    SalesOrg-V1:
+      title: salesOrg-v1
+      x-stoplight:
+        id: dhhjxl182u55k
+      type: object
+      description: Represents a sales organization model
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 6
+          pattern: '^[A-Za-z0-9]*$'
+          example: S001
+          description: Sales organization code
+        description:
+          type: string
+          description: Sales organization description
+          example: Sales Org
+        alpha2:
+          type: string
+          minLength: 1
+          maxLength: 2
+          description: Country code ISO 3166-1 alfa-2
+          example: SO
+        alpha3:
+          type: string
+          minLength: 1
+          maxLength: 3
+          description: Country code ISO 3166-1 alfa-3
+          example: SOR
+        status:
+          type: string
+          example: ENABLED
+          description: Sales organization status
+        infraDetails:
+          type: object
+          x-stoplight:
+            id: nzy7kp5o0pk42
+          description: Sales organization infra details metadata
+          example:
+            itemA: A
+            itemB: B
+            itemC: C
+      required:
+        - code
+        - description
+        - alpha2
+        - alpha3
+        - status
+    SalesOrgUpdate-v1:
+      title: salesOrgUpdate-v1
+      x-stoplight:
+        id: axx21b98vjpnj
+      type: object
+      description: Sales organization model with no mandatory fields to update a sales org
+      properties:
+        description:
+          type: string
+          description: Sales organization description
+          example: Sales Org
+        alpha2:
+          type: string
+          minLength: 1
+          maxLength: 2
+          description: Country code ISO 3166-1 alfa-2
+          example: SO
+        alpha3:
+          type: string
+          minLength: 1
+          maxLength: 3
+          description: Country code ISO 3166-1 alfa-3
+          example: SOR
+        status:
+          type: string
+          description: Sales organization status
+          example: ENABLED
+        infraDetails:
+          type: object
+          x-stoplight:
+            id: bkt9supbo6czc
+          description: Sales organization infra details metadata
+          example:
+            itemA: A
+            itemB: B
+            itemC: C
+    Error-v1:
+      title: Errors With Error Code
+      x-stoplight:
+        id: gofmrhvxq66py
+      type: object
+      properties:
+        title:
+          type: string
+          description: 'A short summary of the problem type. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.'
+          example: Bad Request
+          x-stoplight:
+            id: hl9x0xwenk7d5
+        status:
+          type: integer
+          format: int32
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          minimum: 100
+          example: 400
+          x-stoplight:
+            id: i79hrxe58a1dm
+        detail:
+          type: string
+          description: 'A human readable explanation specific to this occurrence of the problem that is helpful to locate the problem and give advice on how to proceed. Written in English and readable for engineers, usually not suited for non technical stakeholders and not localized.'
+          example: Invalid place order request
+          x-stoplight:
+            id: gcm73e2ywfykd
+        errorCode:
+          type: string
+          description: The error code of this problem
+          example: ORD-001
+          x-stoplight:
+            id: zvu70e1ab4luk
+        errorMessage:
+          type: string
+          description: Brief message about the error. It is usually key message beside errorCode for client to identify the problem.
+          example: Invalid input parameters for order
+          x-stoplight:
+            id: 72sjlgmfanaw2
+        errorMetadata:
+          type: object
+          description: Specific metadata for the error code
+          example:
+            validationErrors:
+              - field: beerType
+                message: Beer type is required
+              - field: quantity
+                message: Quantity must be greater than 0
+              - field: deliveryDate
+                message: Delivery date is required
+          x-stoplight:
+            id: kej91uqx9wzh1
+      required:
+        - title
+        - status
+        - detail
+        - errorCode
+      description: Represents a standardized format for describing errors in an API
+    Token-v1:
+      title: Token Pagination
+      type: object
+      description: 'Pagination metadata for token method '
+      x-stoplight:
+        id: 7nmasrgzm6h04
+      properties:
+        token:
+          type: string
+          description: The token for the next page
+          example: abc123
+        size:
+          type: integer
+          description: The size of each page
+          minimum: 1
+          format: int32
+          example: 10
+  responses:
+    '400':
+      description: |-
+        Bad request errors:
+
+        - SOR-001 - SalesOrg does not exist
+        - SOR-002 - SalesOrg already exists
+        - SOR-003 - SalesOrg not modified - No new data
+        - SOR-101 - Mandatory fields are not on the request body
+        - SOR-900 - Generic invalid request error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error-v1'
+          examples:
+            SOR-001 - SalesOrg does not exist:
+              value:
+                title: Bad Request
+                status: 400
+                detail: SalesOrg 'X001' not found
+                errorCode: SOR-001
+                errorMetadata: {}
+            SOR-002 - SalesOrg already exists:
+              value:
+                title: Bad Request
+                status: 400
+                detail: SalesOrg 'D001' already exists
+                errorCode: SOR-002
+                errorMetadata: {}
+    SalesOrg:
+      description: Sales org response body
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SalesOrg-V1'
+    SalesOrgPage:
+      description: List of sales orgs
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              content:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SalesOrg-V1'
+              pagination:
+                $ref: '#/components/schemas/Token-v1'
+            required:
+              - content
+              - pagination
+  parameters:
+    salesOrgCode:
+      name: salesOrgCode
+      in: path
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 6
+        example: S001
+        pattern: '^[A-Za-z0-9]*$'
+      description: Sales organization identifier code
+    token:
+      name: token
+      in: query
+      required: false
+      schema:
+        type: string
+        example: abc123
+      description: Pagination token
+    size:
+      name: size
+      in: query
+      required: false
+      schema:
+        type: integer
+        example: 10
+      description: Token size
+  requestBodies:
+    CreateSalesOrg:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SalesOrgCreate-v1'
+      description: Request body to create a new sales org
+    UpdateSalesOrg:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SalesOrgUpdate-v1'
+      description: Request body to update a sales org
+  securitySchemes: {}
