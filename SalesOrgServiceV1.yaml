@@ -12,7 +12,7 @@ tags:
   - name: SalesOrgController
     description: Sales Org Controller
 servers:
-  - url: 'https://api.tst.carlsbergwebservices.com/salesorgs-service/api/v1'
+  - url: 'https://api.tst.carlsbergwebservices.com/salesorgs/api/v1'
     description: Sales Orgs API server url
 paths:
   '/salesOrgs/{salesOrgCode}':
