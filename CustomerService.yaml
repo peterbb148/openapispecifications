@@ -637,14 +637,14 @@ components:
         email:
           type: string
           description: Email string property value
-          example: HAMPUS.SEDVALL@CARLSBERG.SE
+          example: email@gmail.com
       example:
         collaboratorId: '90005'
         code: Z1
         description: Collaborator
         firstName: Hampus
         lastName: SEDVALL
-        email: HAMPUS.SEDVALL@CARLSBERG.SE
+        email: email@gmail.com
     ContactDto:
       description: The Contact Dto object
       title: ContactDto
@@ -681,11 +681,11 @@ components:
         email:
           type: string
           description: Email string property value
-          example: example@carlsberg.se
+          example: email@gmail.com
         contactEmail:
           type: string
           description: Contact Email string property value
-          example: example@carlsberg.se
+          example: email@gmail.com
       example:
         crmContactId: '0139'
         crmContactName: Martin
@@ -694,8 +694,8 @@ components:
         mobilePhone: '0752471111'
         mobileContactName: Roth
         customerSupport: '0752471111'
-        email: example@carlsberg.se
-        contactEmail: example@carlsberg.se
+        email: email@gmail.com
+        contactEmail: email@gmail.com
     CustomerGeoPointDto:
       description: The Customer Geo Point Dto object
       title: CustomerGeoPointDto
@@ -1282,7 +1282,7 @@ components:
                   description: TAI CECI
                   firstName: CECI
                   lastName: 'TAI '
-                  email: tai@carlsberg.asia
+                  email: email@gmail.com
               partners:
                 - customerId: '2502'
                   name: PR
@@ -1418,7 +1418,7 @@ components:
                   description: TAI CECI
                   firstName: CECI
                   lastName: 'TAI '
-                  email: tai@carlsberg.asia
+                  email: email@gmail.com
               partners:
                 - customerId: '2502'
                   name: PR
@@ -1674,7 +1674,7 @@ components:
               description: TAI CECI
               firstName: CECI
               lastName: TAI
-              email: tai@carlsberg.asia
+              email: email@gmail.com
         partners:
           description: The Partners array object
           type: array
@@ -1780,7 +1780,7 @@ components:
             description: TAI CECI
             firstName: CECI
             lastName: 'TAI '
-            email: tai@carlsberg.asia
+            email: email@gmail.com
         partners:
           - customerId: '2502'
             name: PR
@@ -2024,7 +2024,7 @@ components:
                         description: TAI CECI
                         firstName: CECI
                         lastName: 'TAI '
-                        email: tai@carlsberg.asia
+                        email: email@gmail.com
                     partners:
                       - customerId: '2502'
                         name: PR
@@ -2143,7 +2143,7 @@ components:
                         description: TAI CECI
                         firstName: CECI
                         lastName: 'TAI '
-                        email: tai@carlsberg.asia
+                        email: email@gmail.com
                     partners:
                       - customerId: '2502'
                         name: PR
@@ -2240,7 +2240,7 @@ components:
                     description: TAI CECI
                     firstName: CECI
                     lastName: 'TAI '
-                    email: tai@carlsberg.asia
+                    email: email@gmail.com
                 partners:
                   - customerId: '2502'
                     name: PR
@@ -2344,7 +2344,7 @@ components:
                             description: TAI CECI
                             firstName: CECI
                             lastName: 'TAI '
-                            email: tai@carlsberg.asia
+                            email: email@gmail.com
                         partners:
                           - customerId: '2502'
                             name: PR
@@ -2437,7 +2437,7 @@ components:
                         description: TAI CECI
                         firstName: CECI
                         lastName: 'TAI '
-                        email: tai@carlsberg.asia
+                        email: email@gmail.com
                     partners:
                       - customerId: '2502'
                         name: PR
