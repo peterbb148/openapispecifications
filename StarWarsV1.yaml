@@ -1,0 +1,64 @@
+openapi: 3.1.0
+x-stoplight:
+  id: f0hcqdjl0sd3t
+info:
+  title: StarWarsV1
+  version: '1.0'
+  description: 'Welcome to the swapi, the Star Wars API! This documentation should help you familiarise yourself with the resources available and how to consume them with HTTP requests. If you''re after a native helper library then I suggest you scroll down and check out what''s available. Read through the getting started section before you dive in. Most of your problems should be solved just by reading through it.'
+  summary: Star Wars API
+  contact:
+    name: Peter Birkholm-Buch
+servers:
+  - url: 'https://swapi.dev/api'
+paths:
+  /planets:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-planets
+  /films:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-films
+  /people:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-people
+  '/people/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-people-id
+      description: 'Returns a person '
+  /species:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-species
+  /starships:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-starships
+  /vehicles:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-vehicles
+components:
+  schemas: {}

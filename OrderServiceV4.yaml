@@ -71,10 +71,10 @@ paths:
   /orders/searchBySalesOrgOutletOrder:
     get:
       summary: Orders By Sales Org and Outlet
-      description: Search for orders by SalesOrg and fromDate and endDate. The endpoint also supports paging and page size parameter.
+      description: 'Search for orders by SalesOrg, fromDate and endDate. The endpoint also supports paging and page size parameter.'
       tags:
         - order-controller-v-4
-      operationId: getOrdersByOutletOrOrderNumberAndSalesOrg
+      operationId: getOrdersBySalesOrg
       parameters:
         - $ref: '#/components/parameters/salesOrgQry'
         - $ref: '#/components/parameters/page'
