@@ -33,45 +33,6 @@ paths:
 
             Possible error codes:
             - SOR-001
-    post:
-      summary: Create new SalesOrg
-      operationId: createSalesOrg
-      responses:
-        '200':
-          $ref: '#/components/responses/SalesOrg'
-        '400':
-          $ref: '#/components/responses/400'
-      tags:
-        - SalesOrgController
-      requestBody:
-        $ref: '#/components/requestBodies/CreateSalesOrg'
-      description: |-
-        Creates a new SalesOrg based on the request body
-            
-            Possible error codes:
-            - SOR-000
-            - SOR-002
-    put:
-      summary: Update SalesOrg by code
-      operationId: updatesalesOrg
-      responses:
-        '200':
-          $ref: '#/components/responses/SalesOrg'
-        '400':
-          $ref: '#/components/responses/400'
-      tags:
-        - SalesOrgController
-      requestBody:
-        $ref: '#/components/requestBodies/UpdateSalesOrg'
-      description: |-
-        Updates an existing SalesOrg (by the sales org code in the path) based on the request body
-
-        At least one of the body fields must be not null
-
-        Possible error codes:
-        - SOR-000
-        - SOR-001
-        - SOR-003
   /salesOrgs:
     get:
       summary: Return all SalesOrgs
