@@ -1124,7 +1124,7 @@ components:
           type: string
           description: Sku Property Description
         name:
-          example: (New)Carlsberg Empty Bottle 640ml (3x4)Domestic
+          example: (New) Empty Bottle 640ml (3x4)Domestic
           type: string
           description: Name Property Description
         type:
