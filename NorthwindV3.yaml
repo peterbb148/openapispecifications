@@ -148,7 +148,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/OrderDto'
       operationId: get_customer_orders
-      description: Returns all the orders of a customer specified by id.
+      description: Use this method to return all the orders placed by a customer specified by the customer id.
   /Orders:
     get:
       tags:
