@@ -1,0 +1,544 @@
+openapi: 3.0.1
+x-stoplight:
+  id: pwuv1h9jrhpan
+info:
+  title: NorthWind Data Service Restful API
+  description: NorthWind Data Service Restful API.
+  version: '1.0'
+  contact:
+    name: Peter Birkholm-Buch
+    email: peterbb@gmail.com
+paths:
+  /Categories:
+    get:
+      tags:
+        - Categories
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CategoryDto'
+      operationId: get_categories
+      description: The /Categories method returns all the product categories.
+  '/Categories/{id}':
+    get:
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CategoryDto'
+      operationId: get_category
+      description: 'The /Categories/{id} method returns a product category based on id.'
+  '/Categories/{id}/Products':
+    get:
+      tags:
+        - Categories
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+      operationId: get_category_products
+      description: Returns all the products belong to a category specified by id.
+  /Customers:
+    get:
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerDto'
+      operationId: get_customers
+      description: Returns all customers
+  '/Customers/{id}':
+    get:
+      tags:
+        - Customers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+      operationId: get_customer
+      description: Returns a customer based on customer id.
+  '/Customers/{id}/Orders':
+    get:
+      tags:
+        - Customers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            nullable: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+      operationId: get_customer_orders
+      description: Returns all the orders of a customer specified by id.
+  /Orders:
+    get:
+      tags:
+        - Orders
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+      operationId: get_orders
+      description: Returns all orders.
+  '/Orders/{id}':
+    get:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+      operationId: get_order
+      description: Returns an order based on id.
+  '/Orders/{id}/OrderDetails':
+    get:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDetailDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDetailDto'
+      operationId: get_order_details
+      description: Returns order details based on id.
+  /Products:
+    get:
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+      operationId: get_products
+      description: Returns all products for sale from the Northwind Traders Company.
+  '/Products/{id}':
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+      operationId: get_product
+      description: Returns a product based on the product id.
+  /Suppliers:
+    get:
+      tags:
+        - Suppliers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupplierDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SupplierDto'
+      operationId: get_suppliers
+      description: Returns all the suppliers.
+  '/Suppliers/{id}':
+    get:
+      tags:
+        - Suppliers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SupplierDto'
+      operationId: get_supplier
+      description: Returns a supplier based on supplier id.
+  '/Suppliers/{id}/Products':
+    get:
+      tags:
+        - Suppliers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+      operationId: get_supplier_products
+      description: Returns all the products from a supplier based on the supplier id.
+components:
+  schemas:
+    CategoryDto:
+      type: object
+      properties:
+        categoryId:
+          type: integer
+          format: int32
+        categoryName:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+      x-stoplight:
+        id: b4k6ifgc9biu5
+    ProductDto:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int32
+        productName:
+          type: string
+          nullable: true
+        supplierId:
+          type: integer
+          format: int32
+          nullable: true
+        categoryId:
+          type: integer
+          format: int32
+          nullable: true
+        quantityPerUnit:
+          type: string
+          nullable: true
+        unitPrice:
+          type: number
+          format: double
+          nullable: true
+        unitsInStock:
+          type: integer
+          format: int32
+          nullable: true
+        unitsOnOrder:
+          type: integer
+          format: int32
+          nullable: true
+        reorderLevel:
+          type: integer
+          format: int32
+          nullable: true
+        discontinued:
+          type: boolean
+      x-stoplight:
+        id: zgeaw1mzhoy9i
+    CustomerDto:
+      type: object
+      properties:
+        customerId:
+          type: string
+          nullable: true
+        companyName:
+          type: string
+          nullable: true
+        contactName:
+          type: string
+          nullable: true
+        contactTitle:
+          type: string
+          nullable: true
+        address:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        region:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        fax:
+          type: string
+          nullable: true
+      x-stoplight:
+        id: m76r46v5d9zxl
+    OrderDto:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int32
+        customerId:
+          type: string
+          nullable: true
+        employeeId:
+          type: integer
+          format: int32
+          nullable: true
+        orderDate:
+          type: string
+          format: date-time
+          nullable: true
+        requiredDate:
+          type: string
+          format: date-time
+          nullable: true
+        shippedDate:
+          type: string
+          format: date-time
+          nullable: true
+        shipVia:
+          type: integer
+          format: int32
+          nullable: true
+        freight:
+          type: number
+          format: double
+          nullable: true
+        shipName:
+          type: string
+          nullable: true
+        shipAddress:
+          type: string
+          nullable: true
+        shipCity:
+          type: string
+          nullable: true
+        shipRegion:
+          type: string
+          nullable: true
+        shipPostalCode:
+          type: string
+          nullable: true
+        shipCountry:
+          type: string
+          nullable: true
+      x-stoplight:
+        id: tahy3ji8utxeb
+    OrderDetailDto:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          format: int32
+        productId:
+          type: integer
+          format: int32
+        unitPrice:
+          type: number
+          format: double
+        quantity:
+          type: integer
+          format: int32
+        discount:
+          type: number
+          format: float
+      x-stoplight:
+        id: 6z556g732e8h4
+    SupplierDto:
+      type: object
+      properties:
+        supplierId:
+          type: integer
+          format: int32
+        companyName:
+          type: string
+          nullable: true
+        contactName:
+          type: string
+          nullable: true
+        contactTitle:
+          type: string
+          nullable: true
+        address:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        region:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+        country:
+          type: string
+          nullable: true
+        phone:
+          type: string
+          nullable: true
+        fax:
+          type: string
+          nullable: true
+        homePage:
+          type: string
+          nullable: true
+      x-stoplight:
+        id: jouo17clm3o4c
+servers:
+  - url: 'https://northwind.vercel.app/api'
