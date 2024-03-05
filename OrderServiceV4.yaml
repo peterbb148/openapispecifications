@@ -68,9 +68,9 @@ components:
       description: Sales Org Parameter
       example: '1010'
       in: query
-      required: true
       schema:
         type: string
+      required: true
     fromDate:
       name: fromDate
       example: '2023-01-01'
